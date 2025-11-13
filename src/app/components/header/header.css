@@ -1,0 +1,117 @@
+.navbar {
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); /* Gradient example */
+}
+
+.navbar-brand {
+  font-weight: bold;
+  font-size: 1.3rem;
+  margin-left: 2rem; /* Add space to the left of the logo */
+}
+
+.nav-item {
+  margin-left: 0.6rem;
+}
+
+.nav-link {
+  transition: opacity 0.2s;
+}
+
+.nav-link:hover {
+  opacity: 0.8;
+}
+
+.nav-link.active {
+  font-weight: bold;
+}
+
+/* Compact Header Search - Horizontal Expansion to the Left */
+.header-search-wrapper {
+  display: flex;
+  align-items: center;
+  flex-direction: row-reverse; /* Reverses the order so input appears before button */
+  margin-left: 10px;
+  overflow: visible;
+}
+
+.search-toggle {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  padding: 8px 12px;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+}
+
+.search-toggle:hover,
+.search-toggle.active {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+}
+
+.header-search-input {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(255, 255, 255, 0.95);
+  padding: 4px 8px;
+  border-radius: 25px;
+  max-width: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  white-space: nowrap;
+}
+
+.header-search-input.open {
+  max-width: 300px;
+  opacity: 1;
+  margin-right: 8px; /* Changed from margin-left to margin-right */
+  padding: 4px 12px;
+}
+
+.header-search-input input {
+  border: 1px solid #dee2e6;
+  border-radius: 20px;
+  padding: 6px 15px;
+  flex: 1;
+  min-width: 0;
+  width: 200px;
+}
+
+.header-search-input input:focus {
+  outline: none;
+  border-color: #0d6efd;
+  box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+}
+
+.header-search-input .btn {
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* Mobile adjustments */
+@media (max-width: 991px) {
+  .header-search-wrapper {
+    width: 100%;
+    margin: 10px 0;
+  }
+
+  .header-search-input {
+    position: static;
+    width: 100%;
+    margin-top: 5px;
+  }
+
+  .search-toggle {
+    width: 100%;
+    text-align: left;
+  }
+}

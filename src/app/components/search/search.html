@@ -1,0 +1,25 @@
+<div class="search-container mb-4">
+  <div class="input-group">
+    <input
+      type="text"
+      class="form-control search-input"
+      placeholder="ابحث عن الأخبار..."
+      dir="rtl"
+      [(ngModel)]="searchQuery"
+      (keyup.enter)="onSearch()">
+    @if (searchQuery) {
+      <button
+        class="btn btn-outline-secondary"
+        type="button"
+        (click)="onClear()">
+        <i class="bi bi-x-lg"></i>
+      </button>
+    }
+    <button
+      class="btn btn-primary"
+      type="button"
+      (click)="onSearch()">
+      <i class="bi bi-search"></i>
+    </button>
+  </div>
+</div>

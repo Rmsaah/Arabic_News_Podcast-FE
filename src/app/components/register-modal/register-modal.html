@@ -1,0 +1,142 @@
+<!-- Modal Overlay -->
+@if (isVisible()) {
+  <div class="modal-overlay" (click)="closeModal()">
+    <div class="modal-container" dir="auto" (click)="onModalContentClick($event)">
+      <div class="modal-header">
+        <h2 class="modal-title">إنشاء حساب جديد</h2>
+        <button type="button" class="close-btn" (click)="closeModal()" aria-label="Close">
+          <i class="bi bi-x-lg"></i>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <!-- Success Message -->
+        @if (successMessage()) {
+          <div class="alert alert-success" role="alert">
+            <i class="bi bi-check-circle-fill me-2"></i>
+            {{ successMessage() }}
+          </div>
+        }
+
+        <!-- Error Message -->
+        @if (errorMessage()) {
+          <div class="alert alert-danger" role="alert">
+            <i class="bi bi-exclamation-triangle-fill me-2"></i>
+            {{ errorMessage() }}
+          </div>
+        }
+
+        <!-- Register Form -->
+        <form (ngSubmit)="onSubmit()">
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label for="firstName" class="form-label">الاسم الأول <span class="text-danger">*</span></label>
+              <input
+                type="text"
+                class="form-control"
+                id="firstName"
+                [(ngModel)]="firstName"
+                name="firstName"
+                placeholder="أدخل الاسم الأول"
+                [disabled]="loading()"
+                required>
+            </div>
+
+            <div class="col-md-6 mb-3">
+              <label for="lastName" class="form-label">اسم العائلة <span class="text-danger">*</span></label>
+              <input
+                type="text"
+                class="form-control"
+                id="lastName"
+                [(ngModel)]="lastName"
+                name="lastName"
+                placeholder="أدخل اسم العائلة"
+                [disabled]="loading()"
+                required>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="username" class="form-label">اسم المستخدم <span class="text-danger">*</span></label>
+            <input
+              type="text"
+              class="form-control"
+              id="username"
+              [(ngModel)]="username"
+              name="username"
+              placeholder="أدخل اسم المستخدم"
+              [disabled]="loading()"
+              required
+              autocomplete="username">
+          </div>
+
+          <div class="mb-3">
+            <label for="email" class="form-label">البريد الإلكتروني <span class="text-danger">*</span></label>
+            <input
+              type="email"
+              class="form-control"
+              id="email"
+              [(ngModel)]="email"
+              name="email"
+              placeholder="example@domain.com"
+              [disabled]="loading()"
+              required
+              autocomplete="email">
+          </div>
+
+          <div class="mb-3">
+            <label for="password" class="form-label">كلمة المرور <span class="text-danger">*</span></label>
+            <input
+              type="password"
+              class="form-control"
+              id="password"
+              [(ngModel)]="password"
+              name="password"
+              placeholder="أدخل كلمة المرور (6 أحرف على الأقل)"
+              [disabled]="loading()"
+              required
+              autocomplete="new-password">
+            <small class="form-text text-muted">يجب أن تكون 6 أحرف على الأقل</small>
+          </div>
+
+          <div class="mb-3">
+            <label for="confirmPassword" class="form-label">تأكيد كلمة المرور <span class="text-danger">*</span></label>
+            <input
+              type="password"
+              class="form-control"
+              id="confirmPassword"
+              [(ngModel)]="confirmPassword"
+              name="confirmPassword"
+              placeholder="أعد إدخال كلمة المرور"
+              [disabled]="loading()"
+              required
+              autocomplete="new-password">
+          </div>
+
+          <button
+            type="submit"
+            class="btn btn-primary w-100 mb-3"
+            [disabled]="loading()">
+            @if (loading()) {
+              <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+              جاري التسجيل...
+            } @else {
+              إنشاء حساب
+              <i class="bi bi-person-plus me-2"></i>
+            }
+          </button>
+        </form>
+
+        <!-- Login Link -->
+        <div class="text-center">
+          <p class="mb-0">
+            لديك حساب بالفعل؟
+            <a href="#" class="text-primary" (click)="switchToLogin(); $event.preventDefault()">
+              سجل الدخول
+            </a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+}

@@ -1,0 +1,84 @@
+.footer {
+  margin-top: auto;
+  border-top: 1px solid #dee2e6;
+}
+
+/* Consistent section spacing */
+.footer .col-md-4 {
+  padding: 0 1.5rem;
+}
+
+/* Text and link colors */
+.footer p,
+.footer a,
+.footer .text-muted {
+  color: #adb5bd !important;
+}
+
+/* Consistent heading alignment */
+.footer h5 {
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Paragraph spacing */
+.footer p {
+  line-height: 1.6;
+  margin-bottom: 0.75rem;
+}
+
+/* List item spacing */
+.footer .list-unstyled {
+  padding-left: 0;
+  padding-right: 0;
+  margin-left: 0;
+}
+
+.footer .list-unstyled li {
+  margin-bottom: 0.75rem;
+  line-height: 1.6;
+}
+
+/* Link hover effect */
+.hover-link {
+  transition: color 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+}
+
+.hover-link:hover {
+  color: #fff !important;
+}
+
+/* Icon spacing in links */
+.hover-link i {
+  margin-right: 0.5rem;
+  min-width: 20px;
+}
+
+/* Social links spacing and sizing */
+.social-links {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.social-links a {
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.social-links a:hover {
+  color: #fff !important;
+  background-color: rgba(255, 255, 255, 0.15);
+  transform: translateY(-2px);
+}

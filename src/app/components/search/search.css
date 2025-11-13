@@ -1,0 +1,17 @@
+.search-container {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.search-input {
+  border-radius: 25px 0 0 25px !important;
+  padding: 12px 20px;
+}
+
+.btn {
+  border-radius: 0 25px 25px 0 !important;
+}
+
+.btn-outline-secondary {
+  border-radius: 0 !important;
+}

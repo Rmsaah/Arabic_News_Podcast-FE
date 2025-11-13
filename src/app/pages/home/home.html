@@ -1,0 +1,36 @@
+<div class="home-container">
+  <!-- Hero Section -->
+  <app-hero></app-hero>
+
+  <!-- Search Section -->
+  <div class="search-section py-4">
+    <div class="container">
+      <app-search (searchEvent)="onSearch($event)"></app-search>
+    </div>
+  </div>
+
+  <!-- Latest Episodes Section -->
+  <!-- TODO: implement a 'latest episodes' section inside homepage -->
+
+  <div class="features-section py-5 mt-5 bg-light">
+    <div class="container">
+      <div class="row g-4 text-center">
+        <div class="col-md-4">
+          <i class="bi bi-newspaper display-4 text-primary mb-3"></i>
+          <h3 class="h5">أخبار محدثة</h3>
+          <p class="text-muted">آخر الأخبار من مصادر موثوقة</p>
+        </div>
+        <div class="col-md-4">
+          <i class="bi bi-headphones display-4 text-primary mb-3"></i>
+          <h3 class="h5">بودكاست صوتي</h3>
+          <p class="text-muted">استمع للأخبار في أي وقت</p>
+        </div>
+        <div class="col-md-4">
+          <i class="bi bi-search display-4 text-primary mb-3"></i>
+          <h3 class="h5">بحث سهل</h3>
+          <p class="text-muted">ابحث عن الأخبار التي تهمك</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

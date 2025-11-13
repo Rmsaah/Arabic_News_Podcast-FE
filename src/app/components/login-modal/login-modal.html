@@ -1,0 +1,77 @@
+<!-- Modal Overlay -->
+@if (isVisible()) {
+  <div class="modal-overlay" (click)="closeModal()">
+    <div class="modal-container" dir='auto' (click)="onModalContentClick($event)">
+      <div class="modal-header">
+        <h2 class="modal-title">تسجيل الدخول</h2>
+        <button type="button" class="close-btn" (click)="closeModal()" aria-label="Close">
+          <i class="bi bi-x-lg"></i>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <!-- Error Message -->
+        @if (errorMessage()) {
+          <div class="alert alert-danger" role="alert">
+            <i class="bi bi-exclamation-triangle-fill me-2"></i>
+            {{ errorMessage() }}
+          </div>
+        }
+
+        <!-- Login Form -->
+        <form (ngSubmit)="onSubmit()">
+          <div class="mb-3">
+            <label for="username" class="form-label">اسم المستخدم</label>
+            <input
+              type="text"
+              class="form-control"
+              id="username"
+              [(ngModel)]="username"
+              name="username"
+              placeholder="أدخل اسم المستخدم"
+              [disabled]="loading()"
+              required
+              autocomplete="username">
+          </div>
+
+          <div class="mb-3">
+            <label for="password" class="form-label">كلمة المرور</label>
+            <input
+              type="password"
+              class="form-control"
+              id="password"
+              [(ngModel)]="password"
+              name="password"
+              placeholder="أدخل كلمة المرور"
+              [disabled]="loading()"
+              required
+              autocomplete="current-password">
+          </div>
+
+          <button
+            type="submit"
+            class="btn btn-primary w-100 mb-3"
+            [disabled]="loading()">
+            @if (loading()) {
+              <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+              جاري تسجيل الدخول...
+            } @else {
+              تسجيل الدخول
+              <i class="bi bi-box-arrow-in-right me-2"></i>
+            }
+          </button>
+        </form>
+
+        <!-- Register Link -->
+        <div class="text-center">
+          <p class="mb-0">
+            ليس لديك حساب؟
+            <a href="#" class="text-primary" (click)="switchToRegister(); $event.preventDefault()">
+              سجل الآن
+            </a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+}

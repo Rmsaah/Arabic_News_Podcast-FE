@@ -1,0 +1,18 @@
+.home-container {
+  padding-bottom: 50px;
+}
+
+.search-section {
+  background: #f8f9fa;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.features-section {
+  border-radius: 10px;
+}
