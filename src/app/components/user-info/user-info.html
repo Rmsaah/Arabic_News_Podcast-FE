@@ -1,0 +1,32 @@
+<div class="user-info" dir="auto">
+  <div class="greeting-section">
+    <h2 class="greeting-text" dir="auto">{{ greeting }}</h2>
+    <p class="welcome-message" dir="auto">مرحبا بك في ملفك الشخصي! تحقق من احصائياتك و تقييماتك.</p>
+  </div>
+
+  <div class="details-section">
+    <p class="user-details">
+      <i class="bi bi-person-badge me-2"></i>
+      <span class="username" dir="auto">{{ displayName }}</span>
+    </p>
+    <p class="user-details">
+      <i class="bi bi-envelope me-2"></i>
+      <span class="email" dir="auto">{{ email }}</span>
+    </p>
+    <p class="user-details text-muted">
+      <i class="bi bi-calendar3 me-2"></i>
+      <span dir="auto" style="color: white">عضو منذ {{ creationDate | date:'mediumDate':'':'ar-SA' }}</span>
+    </p>
+  </div>
+
+  <div class="action-buttons">
+    <button class="btn btn-edit" (click)="onEditClick()">
+      تعديل الملف الشخصي
+      <i class="bi bi-pencil-square me-2"></i>
+    </button>
+    <button class="btn btn-logout" (click)="onLogoutClick()">
+      تسجيل الخروج
+      <i class="bi bi-box-arrow-right me-2"></i>
+    </button>
+  </div>
+</div>

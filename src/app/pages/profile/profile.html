@@ -1,0 +1,84 @@
+<div class="user-profile-page">
+  <!-- Loading State -->
+  @if (loading()) {
+    <div class="container py-5">
+      <div class="text-center">
+        <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;">
+          <span class="visually-hidden">جاري التحميل...</span>
+        </div>
+        <p class="mt-3 text-muted">جاري تحميل بياناتك...</p>
+      </div>
+    </div>
+  }
+
+  <!-- Error State -->
+  @if (error()) {
+    <div class="container py-5">
+      <div class="alert alert-danger d-flex align-items-center" role="alert">
+        <i class="bi bi-exclamation-triangle-fill me-3 fs-4"></i>
+        <div>
+          <h5 class="alert-heading mb-1">حدث خطأ</h5>
+          <p class="mb-0">{{ error() }}</p>
+        </div>
+      </div>
+    </div>
+  }
+
+  <!-- Main Content -->
+  @if (profile() && !loading()) {
+    <div class="profile-content">
+      <div class="container py-5">
+
+        <!-- Profile Section (Stats + User Info) -->
+        <section class="profile-section">
+          <div class="row g-4">
+            <!-- User Stats (Left Side) -->
+            <div class="col-lg-6">
+              <app-user-stats
+                [totalEpisodesCompleted]="profile()!.totalEpisodesCompleted"
+                [totalSecondsListened]="profile()!.totalSecondsListened"
+                [totalRatings]="profile()!.recentRatings.length"
+                [totalHistory]="profile()!.episodeHistory.length">
+              </app-user-stats>
+            </div>
+
+            <!-- User Info (Right Side) -->
+            <div class="col-lg-6">
+              <app-user-info
+                [username]="profile()!.username"
+                [email]="profile()!.email"
+                [firstName]="profile()!.firstName"
+                [lastName]="profile()!.lastName"
+                [creationDate]="profile()!.creationDate"
+                (edit)="onEditProfile()"
+                (logout)="logout()">
+              </app-user-info>
+            </div>
+          </div>
+        </section>
+
+        <!-- TODO: Watch History Section
+        <section class="watch-history-section">
+          <app-watch-history
+            [episodes]="profile()!.episodeHistory"
+            (playEpisode)="playEpisodeById($event)">
+          </app-watch-history>
+        </section>
+         -->
+
+      </div>
+    </div>
+  }
+
+  <!-- Edit Profile Modal -->
+  @if (profile()) {
+    <app-edit-profile-modal
+      [isVisible]="showEditModal()"
+      [userId]="profile()!.id"
+      [currentFirstName]="profile()!.firstName"
+      [currentLastName]="profile()!.lastName"
+      (close)="onCloseEditModal()"
+      (profileUpdated)="onProfileUpdated()">
+    </app-edit-profile-modal>
+  }
+</div>

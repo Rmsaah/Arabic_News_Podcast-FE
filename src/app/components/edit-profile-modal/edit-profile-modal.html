@@ -1,0 +1,85 @@
+<!-- Modal Overlay -->
+@if (isVisible) {
+  <div class="modal-overlay" (click)="closeModal()" dir="auto">
+    <div class="modal-container" (click)="onModalContentClick($event)">
+      <div class="modal-header">
+        <h2 class="modal-title">تعديل الملف الشخصي</h2>
+        <button type="button" class="close-btn" (click)="closeModal()" aria-label="Close">
+          <i class="bi bi-x-lg"></i>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <!-- Success Message -->
+        @if (successMessage()) {
+          <div class="alert alert-success" role="alert">
+            <i class="bi bi-check-circle-fill me-2"></i>
+            {{ successMessage() }}
+          </div>
+        }
+
+        <!-- Error Message -->
+        @if (errorMessage()) {
+          <div class="alert alert-danger" role="alert">
+            <i class="bi bi-exclamation-triangle-fill me-2"></i>
+            {{ errorMessage() }}
+          </div>
+        }
+
+        <!-- Edit Form -->
+        <form (ngSubmit)="onSubmit()">
+          <div class="mb-3">
+            <label for="firstName" class="form-label">الاسم الأول</label>
+            <input
+              type="text"
+              class="form-control"
+              id="firstName"
+              [(ngModel)]="firstName"
+              name="firstName"
+              placeholder="أدخل الاسم الأول"
+              [disabled]="loading()"
+              autocomplete="given-name">
+            <small class="form-text text-muted">اترك الحقل فارغاً إذا كنت لا تريد تغييره</small>
+          </div>
+
+          <div class="mb-3">
+            <label for="lastName" class="form-label">اسم العائلة</label>
+            <input
+              type="text"
+              class="form-control"
+              id="lastName"
+              [(ngModel)]="lastName"
+              name="lastName"
+              placeholder="أدخل اسم العائلة"
+              [disabled]="loading()"
+              autocomplete="family-name">
+            <small class="form-text text-muted">اترك الحقل فارغاً إذا كنت لا تريد تغييره</small>
+          </div>
+
+          <div class="d-flex gap-2">
+            <button
+              type="submit"
+              class="btn btn-primary flex-grow-1"
+              [disabled]="loading()">
+              @if (loading()) {
+                <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                جاري الحفظ...
+              } @else {
+                حفظ التغييرات
+                <i class="bi bi-save me-2"></i>
+              }
+            </button>
+
+            <button
+              type="button"
+              class="btn btn-secondary"
+              (click)="closeModal()"
+              [disabled]="loading()">
+              إلغاء
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+}

@@ -1,0 +1,101 @@
+<div class="watch-history">
+  <h2 class="history-title">
+    <i class="bi bi-clock-history me-2"></i>
+    سجل الاستماع
+  </h2>
+
+  <!-- Empty State -->
+  @if (episodes.length === 0) {
+    <div class="empty-state">
+      <i class="bi bi-music-note-list"></i>
+      <p>لم تستمع لأي حلقات بعد</p>
+    </div>
+  }
+
+  <!-- TODO: implement episode-detail history -->
+  <!-- Episode List -->
+  @if (episodes.length > 0) {
+    <div class="episodes-list">
+      @for (episode of episodes; track episode.episodeId) {
+        <div class="episode-item">
+          <div class="episode-info">
+            <h3 class="episode-title">{{ episode.episodeTitle }}</h3>
+
+            <!-- Metadata -->
+            <div class="episode-meta">
+              <time class="episode-date">
+                <i class="bi bi-calendar3 me-1"></i>
+                {{ episode.lastPlayedDate | date:'short':'':'ar-SA' }}
+              </time>
+
+              <span class="episode-duration">
+            <i class="bi bi-clock me-1"></i>
+                <!-- TODO: {{ episodePlayerService.formatTime(episode.lastPositionSeconds) }} -->
+          </span>
+
+              <span class="play-count">
+            <i class="bi bi-play-circle me-1"></i>
+                {{ episode.playCount }} مرة
+          </span>
+            </div>
+
+            <!-- Rating Display -->
+            <div class="episode-rating">
+              <span class="rating-label">تقييمك:</span>
+              <div class="rating-stars">
+                @for (star of [1, 2, 3, 4, 5]; track star) {
+                  <i class="bi"
+                     [class.bi-star-fill]="episode.ratingValue && star <= episode.ratingValue"
+                     [class.bi-star]="!episode.ratingValue || star > episode.ratingValue"
+                     [class.filled]="episode.ratingValue && star <= episode.ratingValue"
+                     [class.empty]="!episode.ratingValue || star > episode.ratingValue"></i>
+                }
+              </div>
+              @if (!episode.ratingValue) {
+                <span class="no-rating">لم يتم التقييم</span>
+              }
+            </div>
+
+            <!-- Progress Bar (for incomplete episodes) -->
+            @if (!episode.isCompleted) {
+              <div class="progress-wrapper">
+                <div class="progress-bar-container">
+                  <div class="progress-bar" [style.width.%]="episode.completionPercentage"></div>
+                </div>
+                <span class="progress-text">{{ episode.completionPercentage.toFixed(0) }}%</span>
+              </div>
+            }
+
+            <!-- Completion Badge -->
+            <div class="status-badge">
+              @if (episode.isCompleted) {
+                <span class="badge-complete">
+              <i class="bi bi-check-circle-fill me-1"></i>
+              مكتمل
+            </span>
+              }
+              @if (!episode.isCompleted) {
+                <span class="badge-progress">
+              <i class="bi bi-hourglass-split me-1"></i>
+              قيد الاستماع
+            </span>
+              }
+            </div>
+          </div>
+
+          <!-- Episode Cover Image -->
+          <div class="episode-cover-wrapper">
+            <img
+              [src]="episode.episodeImageUrl || 'assets/placeholder.jpg'"
+              [alt]="episode.episodeTitle"
+              class="episode-cover"
+              onerror="this.src='assets/placeholder.jpg'">
+            <button class="play-button" (click)="onPlayClick(episode.episodeId)">
+              <i class="bi bi-play-fill"></i>
+            </button>
+          </div>
+        </div>
+      }
+    </div>
+  }
+</div>

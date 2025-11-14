@@ -1,0 +1,136 @@
+.user-profile-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  display: flex;
+  flex-direction: column;
+}
+
+.profile-content {
+  flex: 1;
+}
+
+/* Profile Section (Stats + User Info) */
+.profile-section {
+  margin-bottom: 3rem;
+}
+
+/* Loading and Error States */
+.spinner-border {
+  border-width: 0.3rem;
+}
+
+.alert {
+  border-radius: 12px;
+  border: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+  .profile-section .row {
+    flex-direction: column-reverse;
+  }
+
+  .profile-section .col-lg-6 {
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .profile-section {
+    margin-bottom: 2rem;
+  }
+}
+.completed-episode-card {
+  background: white;
+  border: 1px solid #e9ecef;
+  border-radius: 10px;
+  padding: 1rem;
+  transition: all 0.2s ease;
+}
+
+.completed-episode-card:hover {
+  background: #f8f9fa;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.completed-episode-card h6 {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  line-height: 1.4;
+}
+
+/* Empty State */
+.empty-state {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 3rem 1.5rem;
+}
+
+.empty-icon i {
+  font-size: 6rem;
+  color: #dee2e6;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .profile-avatar-large i {
+    font-size: 4rem;
+  }
+
+  .stat-number {
+    font-size: 1.5rem;
+  }
+
+  .stat-icon {
+    width: 50px;
+    height: 50px;
+  }
+
+  .stat-icon i {
+    font-size: 1.5rem;
+  }
+
+  .empty-icon i {
+    font-size: 4rem;
+  }
+}
+
+/* Utility Classes */
+.bg-gradient {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+/* Badge Styling */
+.badge {
+  padding: 0.5rem 1rem;
+  font-weight: 500;
+}
+
+/* Section Headers */
+h2.h4 {
+  color: #1a1a1a;
+}
+
+/* Button Enhancements */
+.btn-primary {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: none;
+  transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.btn-outline-secondary:hover {
+  background: #6c757d;
+  color: white;
+}

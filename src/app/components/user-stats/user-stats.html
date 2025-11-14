@@ -1,0 +1,52 @@
+<div class="user-stats" dir="auto">
+  <h2 class="stats-title">
+    <i class="bi bi-bar-chart-fill me-2"></i>
+    إحصائياتك
+  </h2>
+
+  <div class="stats-grid">
+    <!-- Episodes Completed -->
+    <div class="stat-card">
+      <div class="stat-icon episodes-icon">
+        <i class="bi bi-check-circle-fill"></i>
+      </div>
+      <div class="stat-content">
+        <h3 class="stat-number" dir="auto">{{ totalEpisodesCompleted }}</h3>
+        <p class="stat-label">حلقة مكتملة</p>
+      </div>
+    </div>
+
+    <!-- Total Listening Time -->
+    <div class="stat-card">
+      <div class="stat-icon time-icon">
+        <i class="bi bi-clock-history"></i>
+      </div>
+      <div class="stat-content">
+        <h3 class="stat-number" dir="auto">{{ formattedListeningTime }}</h3>
+        <p class="stat-label">وقت الاستماع</p>
+      </div>
+    </div>
+
+    <!-- Total Ratings -->
+    <div class="stat-card">
+      <div class="stat-icon ratings-icon">
+        <i class="bi bi-star-fill"></i>
+      </div>
+      <div class="stat-content">
+        <h3 class="stat-number" dir="auto">{{ totalRatings }}</h3>
+        <p class="stat-label">تقييم</p>
+      </div>
+    </div>
+
+    <!-- History Count -->
+    <div class="stat-card">
+      <div class="stat-icon history-icon">
+        <i class="bi bi-list-ul"></i>
+      </div>
+      <div class="stat-content">
+        <h3 class="stat-number" dir="auto">{{ totalHistory }}</h3>
+        <p class="stat-label">سجل الاستماع</p>
+      </div>
+    </div>
+  </div>
+</div>
