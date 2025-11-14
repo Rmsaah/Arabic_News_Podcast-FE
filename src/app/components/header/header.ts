@@ -15,9 +15,10 @@ import { UserDto } from '../../models/episode.model';
   templateUrl: './header.html',
   styleUrl: './header.css'
 })
-export class HeaderComponent implements OnInit, OnDestroy {
+export class Header implements OnInit, OnDestroy {
   isMenuCollapsed = true;
   isSearchOpen = false;
+  isUserDropdownOpen = false;
   searchQuery = '';
   currentUser = signal<UserDto | null>(null);
   isAuthenticated = signal<boolean>(false);
@@ -47,9 +48,20 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   toggleSearch(): void {
     this.isSearchOpen = !this.isSearchOpen;
+    this.isUserDropdownOpen = false; // Close dropdown when opening search
     if (!this.isSearchOpen) {
       this.searchQuery = '';
     }
+  }
+
+  toggleUserDropdown(): void {
+    this.isUserDropdownOpen = !this.isUserDropdownOpen;
+    this.isSearchOpen = false; // Close search when opening dropdown
+  }
+
+  closeDropdowns(): void {
+    this.isUserDropdownOpen = false;
+    this.isSearchOpen = false;
   }
 
   onSearch(): void {

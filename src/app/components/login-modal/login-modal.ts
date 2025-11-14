@@ -13,7 +13,7 @@ import { LoginRequestDto } from '../../models/episode.model';
   templateUrl: './login-modal.html',
   styleUrl: './login-modal.css'
 })
-export class LoginModalComponent {
+export class LoginModal {
   isVisible = signal<boolean>(false);
   username = '';
   password = '';

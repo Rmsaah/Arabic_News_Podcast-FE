@@ -13,7 +13,7 @@ import { UserRegistrationRequestDto } from '../../models/episode.model';
   templateUrl: './register-modal.html',
   styleUrl: './register-modal.css'
 })
-export class RegisterModalComponent {
+export class RegisterModal {
   isVisible = signal<boolean>(false);
   username = '';
   email = '';

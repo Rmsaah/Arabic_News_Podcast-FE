@@ -9,7 +9,7 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './search.html',
   styleUrl: './search.css'
 })
-export class SearchComponent {
+export class Search {
   @Output() searchEvent = new EventEmitter<string>();
   searchQuery: string = '';
 

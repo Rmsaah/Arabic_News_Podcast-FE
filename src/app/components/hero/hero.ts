@@ -9,7 +9,7 @@ import { RouterModule } from '@angular/router';
   templateUrl: './hero.html',
   styleUrl: './hero.css'
 })
-export class HeroComponent {
+export class Hero {
   projectName = 'سعودي بود! بودكاست الأخبار العربية';
   tagline = 'استمع إلى آخر الأخبار العربية في صيغة بودكاست صوتي';
 }
