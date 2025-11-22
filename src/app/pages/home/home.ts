@@ -3,12 +3,12 @@ import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { Search } from '../../components/search/search';
 import { Hero } from '../../components/hero/hero';
-//TODO: import { LatestEpisodesComponent } from '../../components/latest-episodes/latest-episodes';
+import { LatestEpisodes } from '../../components/latest-episodes/latest-episodes';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, RouterModule, Search, Hero],
+  imports: [CommonModule, RouterModule, Search, Hero, LatestEpisodes],
   templateUrl: './home.html',
   styleUrl: './home.css'
 })

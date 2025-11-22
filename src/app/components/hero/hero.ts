@@ -10,6 +10,6 @@ import { RouterModule } from '@angular/router';
   styleUrl: './hero.css'
 })
 export class Hero {
-  projectName = 'سعودي بود! بودكاست الأخبار العربية';
+  projectName = 'علوم اليوم! بودكاست الأخبار العربية';
   tagline = 'استمع إلى آخر الأخبار العربية في صيغة بودكاست صوتي';
 }
