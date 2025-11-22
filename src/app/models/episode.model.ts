@@ -26,6 +26,7 @@ export type UUID = string;
 
 /**
  * Article entity - represents the news article/transcript
+ * Matches backend: com.shakhbary.arabic_news_podcast.models.Article
  */
 export interface Article {
   id: string; // UUID
@@ -33,38 +34,39 @@ export interface Article {
   publisher: string;
   category: string;
   title: string;
-  publishedAt: Date;
-  contentRaw: string;
-  contentCleaned: string;
-  urlPath: string; // URL to cloud-stored content
-  fetchedAt: Date;
+  publicationDate: Date; // Changed from publishedAt
+  contentRawUrl: string; // Changed from contentRaw - URL to raw text content
+  scriptUrl: string; // Changed from contentCleaned - URL to processed script
+  fetchDate: Date; // Changed from fetchedAt
 }
 
 /**
  * Audio entity - represents the podcast audio file
+ * Matches backend: com.shakhbary.arabic_news_podcast.models.Audio
  */
 export interface Audio {
   id: string; // UUID
-  articleId: string; // UUID reference
+  articleId: string; // UUID reference - foreign key to Article
   duration: number; // in seconds
   format: string; // e.g., "mp3", "wav"
-  urlPath: string; // URL to cloud-stored audio
-  createdAt: Date;
+  urlPath: string; // URL to cloud-stored audio file (NOT NULL in backend)
+  creationDate: Date; // Changed from createdAt to match backend
 }
 
 /**
  * Episode entity - the main podcast episode
  * Links Article and Audio together
+ * Matches backend: com.shakhbary.arabic_news_podcast.models.Episode
  */
 export interface Episode {
   id: string; // UUID
-  articleId: string; // UUID reference
-  audioId: string; // UUID reference
+  articleId: string; // UUID reference - foreign key to Article (NOT NULL in backend)
+  audioId: string; // UUID reference - foreign key to Audio (NOT NULL in backend)
   title: string;
   description?: string;
-  transcript: string; // URL to transcript
+  scriptUrlPath: string; // Changed from transcript - URL to transcript (NOT NULL in backend)
   imageUrl?: string; // Cover image
-  createdAt: Date;
+  creationDate: Date; // Changed from createdAt to match backend
   // Populated nested objects (from backend DTOs)
   article?: Article;
   audio?: Audio;
@@ -72,29 +74,32 @@ export interface Episode {
 
 /**
  * Rating entity - user ratings for episodes
+ * Matches backend: com.shakhbary.arabic_news_podcast.models.Rating
  */
 export interface Rating {
   id: string; // UUID
-  userId: string; // UUID reference
-  episodeId: string; // UUID reference
-  rating: number; // 1-5 stars
-  ratedAt: Date;
+  userId: string; // UUID reference - foreign key to User (NOT NULL in backend)
+  episodeId: string; // UUID reference - foreign key to Episode (NOT NULL in backend)
+  rating: number; // 1-5 stars (NOT NULL in backend)
+  ratingDate: Date; // Changed from ratedAt to match backend
 }
 
 /**
  * User entity - user account information
+ * Matches backend: com.shakhbary.arabic_news_podcast.models.User
  */
 export interface User {
   id: string; // UUID
-  username: string;
-  email: string;
+  username: string; // NOT NULL, unique in backend
+  email: string; // NOT NULL, unique in backend
+  password: string; // Hashed password (NOT NULL in backend, not sent to frontend)
   firstName: string;
   lastName: string;
-  secondsListened: number;
-  createdAt: Date;
-  lastLoginAt?: Date;
-  enabled: boolean;
-  roles?: Role[];
+  secondsListened: number; // Total listening time in seconds (default 0 in backend)
+  creationDate: Date; // Changed from createdAt to match backend
+  lastLoginDate?: Date; // Changed from lastLoginAt to match backend
+  enabled: boolean; // Account enabled status (default true in backend)
+  roles?: Role[]; // Many-to-many relationship
 }
 
 /**
@@ -107,16 +112,18 @@ export interface Role {
 
 /**
  * EpisodeProgress entity - tracks user's progress through episodes
+ * Matches backend: com.shakhbary.arabic_news_podcast.models.EpisodeProgress
+ * UNIQUE CONSTRAINT: (user_id, episode_id) - each user can only have one progress record per episode
  */
 export interface EpisodeProgress {
   id: string; // UUID
-  userId: string; // UUID reference
-  episodeId: string; // UUID reference
-  lastPositionSeconds: number; // Current playback position
-  isCompleted: boolean;
-  playCount: number;
-  lastPlayedAt: Date;
-  // Calculated fields (not stored in DB)
+  userId: string; // UUID reference - foreign key to User (NOT NULL in backend)
+  episodeId: string; // UUID reference - foreign key to Episode (NOT NULL in backend)
+  lastPositionSeconds: number; // Current playback position (NOT NULL in backend)
+  isCompleted: boolean; // Whether episode finished (default false in backend)
+  playCount: number; // Number of times played (default 1 in backend)
+  lastPlayedDate: Date; // Changed from lastPlayedAt to match backend (NOT NULL, auto-set)
+  // Calculated fields (not stored in DB - calculated via calculateCompletionPercentage() method)
   completionPercentage?: number;
   remainingSeconds?: number;
   formattedPosition?: string;
