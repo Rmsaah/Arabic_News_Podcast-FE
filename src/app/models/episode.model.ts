@@ -150,6 +150,9 @@ export interface EpisodeDto {
   creationDate: string; // ISO date string (renamed from createdAt)
   articleId: string;
   articleTitle: string;
+  articleAuthor: string; // Author of the source article
+  articlePublisher: string; // Publisher of the source article
+  articleCategory: string; // Category of the source article
   imageUrl?: string; // Episode cover image (renamed from imgUrl)
 }
 
