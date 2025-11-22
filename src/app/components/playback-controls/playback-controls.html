@@ -1,0 +1,248 @@
+@if (currentPodcast() && currentPodcast()!.audioUrlPath) {
+  <!-- HTML5 Audio Element (hidden) -->
+  <audio
+    #audioPlayer
+    [src]="currentPodcast()!.audioUrlPath"
+    (timeupdate)="onTimeUpdate()"
+    (ended)="onAudioEnded()"
+    (loadedmetadata)="onAudioLoaded()"
+    (error)="onAudioError($event)"
+    preload="metadata">
+  </audio>
+
+  <!-- Playback Controls - Fixed to viewport bottom -->
+  <div class="playback-controls-wrapper" [class.expanded]="isExpanded()">
+
+    <!-- Backdrop Overlay (only visible when expanded) -->
+    @if (isExpanded()) {
+      <div class="backdrop" (click)="collapsePlayer()"></div>
+    }
+
+    <!-- Main Player Container -->
+    <div class="playback-controls-container">
+
+      <!-- Mini Player (Spotify-style RTL layout) -->
+      @if (!isExpanded()) {
+        <div class="mini-player" dir="auto">
+          <div class="mini-player-content">
+
+            <!-- RIGHT SECTION: Episode Info + Cover (Arabic first) -->
+            <div class="episode-info-section">
+              @if (currentPodcast()!.imageUrl) {
+                <img
+                  [src]="currentPodcast()!.imageUrl"
+                  alt="Episode cover"
+                  class="player-cover"
+                  (click)="toggleExpand()">
+              }
+              <div class="episode-details" (click)="toggleExpand()">
+                <h6 class="episode-title-mini">{{ currentPodcast()!.title }}</h6>
+                <small class="episode-subtitle-mini">{{ currentPodcast()!.articleAuthor}}</small>
+              </div>
+            </div>
+
+            <!-- MIDDLE SECTION: Playback Controls -->
+            <div class="controls-section">
+              <!-- Control Buttons Row -->
+              <div class="controls-buttons-row">
+                <button
+                  class="btn-control btn-control-secondary"
+                  (click)="seek(-10)"
+                  title="رجوع 10 ثانية">
+                  <i class="bi bi-skip-backward-fill"></i>
+                </button>
+
+                <button
+                  class="btn-control btn-control-play"
+                  (click)="togglePlayPause()"
+                  [title]="isPlaying() ? 'إيقاف مؤقت' : 'تشغيل'">
+                  <i [class]="isPlaying() ? 'bi bi-pause-fill' : 'bi bi-play-fill'"></i>
+                </button>
+
+                <button
+                  class="btn-control btn-control-secondary"
+                  (click)="seek(10)"
+                  title="تقديم 10 ثانية">
+                  <i class="bi bi-skip-forward-fill"></i>
+                </button>
+              </div>
+
+              <!-- Progress Bar Row -->
+              <div class="progress-section">
+                <span class="time-display">{{ formattedPosition() }}</span>
+                <div class="progress-bar-container" (click)="seekToPosition($event)">
+                  <div class="progress-bar-bg">
+                    <div
+                      class="progress-bar-fill"
+                      [style.width.%]="(currentPosition() / currentPodcast()!.durationSeconds) * 100">
+                    </div>
+                  </div>
+                </div>
+                <span class="time-display">{{ formattedDuration() }}</span>
+              </div>
+            </div>
+
+            <!-- LEFT SECTION: Helper Tools -->
+            <div class="tools-section">
+              <!-- Expand Button -->
+              <button
+                class="btn-tool"
+                (click)="toggleExpand()"
+                title="توسيع المشغل">
+                <i class="bi bi-chevron-up"></i>
+              </button>
+
+              <!-- Stop/Close Button -->
+              <button
+                class="btn-tool btn-tool-danger"
+                (click)="close()"
+                title="إيقاف وإغلاق">
+                <i class="bi bi-x-lg"></i>
+              </button>
+            </div>
+
+          </div>
+        </div>
+      }
+
+      <!-- Expanded Player (Full-screen overlay) -->
+      @if (isExpanded()) {
+        <div class="expanded-player" dir="auto">
+
+          <!-- Header with close button -->
+          <div class="expanded-header">
+            <button class="btn-header" (click)="collapsePlayer()" title="تصغير">
+              <i class="bi bi-chevron-down"></i>
+            </button>
+            <h5 class="expanded-title">تشتغل الآن</h5>
+            <button class="btn-header btn-danger" (click)="close()" title="إيقاف وإغلاق">
+              <i class="bi bi-x-lg"></i>
+            </button>
+          </div>
+
+          <!-- Content Area (centered vertically) -->
+          <div class="expanded-content">
+
+            <!-- Episode Cover Image -->
+            <div class="cover-wrapper">
+              <img
+                [src]="currentPodcast()!.imageUrl || 'https://placehold.co/400x300/667eea/ffffff?text=3ulum+Alyawm'"
+                [alt]="currentPodcast()!.title"
+                class="cover-large">
+            </div>
+
+            <!-- Episode Info -->
+            <div class="info-wrapper">
+              <h2 class="title-large">{{ currentPodcast()!.title }}</h2>
+              <p class="subtitle-large">{{ currentPodcast()!.articleAuthor }}</p>
+
+              <!-- Meta Information -->
+              <div class="meta-row">
+                <span class="meta-badge">
+                  <i class="bi bi-star-fill"></i>
+                  {{ currentPodcast()!.averageRating.toFixed(1) }}
+                  <small>({{ currentPodcast()!.ratingCount }})</small>
+                </span>
+                <span class="meta-badge">
+                  <i class="bi bi-clock"></i>
+                  {{ formattedDuration() }}
+                </span>
+              </div>
+
+              <!-- Description (collapsible) -->
+              @if (currentPodcast()!.description) {
+                <div class="description-box">
+                  <p>{{ currentPodcast()!.description }}</p>
+                </div>
+              }
+
+              <!-- Transcript Link -->
+              @if (currentPodcast()!.scriptUrlPath) {
+                <a [href]="currentPodcast()!.scriptUrlPath"
+                   target="_blank"
+                   class="btn-transcript">
+                  <i class="bi bi-file-text"></i>
+                  عرض النص الكامل
+                </a>
+              }
+            </div>
+
+          </div>
+
+          <!-- Playback Controls (Fixed at bottom) -->
+          <div class="expanded-controls">
+
+            <!-- Progress Bar -->
+            <div class="progress-section-expanded">
+              <div class="progress-bar-container" (click)="seekToPosition($event)">
+                <div class="progress-bar-bg">
+                  <div
+                    class="progress-bar-fill"
+                    [style.width.%]="(currentPosition() / currentPodcast()!.durationSeconds) * 100">
+                  </div>
+                </div>
+              </div>
+              <div class="time-row">
+                <span class="time-display">{{ formattedPosition() }}</span>
+                <span class="time-display">{{ formattedDuration() }}</span>
+              </div>
+            </div>
+
+            <!-- Control Buttons -->
+            <div class="controls-buttons-expanded">
+              <button
+                class="btn-control-expanded"
+                (click)="seek(-10)"
+                title="رجوع 10 ثانية">
+                <i class="bi bi-skip-backward-fill"></i>
+                <small>10s</small>
+              </button>
+
+              <button
+                class="btn-control-expanded btn-play-expanded"
+                (click)="togglePlayPause()"
+                [title]="isPlaying() ? 'إيقاف مؤقت' : 'تشغيل'">
+                <i [class]="isPlaying() ? 'bi bi-pause-fill' : 'bi bi-play-fill'"></i>
+              </button>
+
+              <button
+                class="btn-control-expanded"
+                (click)="seek(10)"
+                title="تقديم 10 ثانية">
+                <i class="bi bi-skip-forward-fill"></i>
+                <small>10s</small>
+              </button>
+            </div>
+
+            <!-- Playback Speed -->
+            <div class="speed-control">
+              <label>سرعة التشغيل:</label>
+              <select
+                class="speed-select"
+                (change)="setPlaybackRate(+$any($event.target).value)">
+                <option value="0.5">0.5x</option>
+                <option value="0.75">0.75x</option>
+                <option value="1" selected>1x</option>
+                <option value="1.25">1.25x</option>
+                <option value="1.5">1.5x</option>
+                <option value="2">2x</option>
+              </select>
+            </div>
+
+          </div>
+
+        </div>
+      }
+
+    </div>
+  </div>
+}
+
+<!-- TODO: Rating Screen Component
+<app-rating-screen
+  [episode]="currentPodcast()"
+  [visible]="showRatingScreen()"
+  (close)="onRatingScreenClose()"
+  (playEpisode)="onPlayRelatedEpisode($event)">
+</app-rating-screen>
+-->

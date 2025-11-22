@@ -1,9 +1,10 @@
 import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { Header } from './components/header/header';
-import { LoginModal } from './components/login-modal/login-modal';
 import { RegisterModal } from './components/register-modal/register-modal';
+import { LoginModal } from './components/login-modal/login-modal';
 import { Footer } from './components/footer/footer';
+import { PlaybackControls } from './components/playback-controls/playback-controls';
 
 @Component({
   selector: 'app-root',
@@ -11,9 +12,10 @@ import { Footer } from './components/footer/footer';
   imports: [
     RouterOutlet,
     Header,
-    LoginModal,
     RegisterModal,
+    LoginModal,
     Footer,
+    PlaybackControls,
   ],
   templateUrl: './app.html',
   styleUrl: './app.css'
