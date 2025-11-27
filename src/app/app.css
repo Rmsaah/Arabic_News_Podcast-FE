@@ -8,4 +8,5 @@
 main {
   flex: 1;
   padding-bottom: 100px; /* Space for podcast player */
+  background: transparent; /* Allow page backgrounds to show through */
 }

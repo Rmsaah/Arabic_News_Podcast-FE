@@ -1,18 +1,17 @@
 <div class="watch-history">
-  <h2 class="history-title">
+  <h2 class="history-title" dir="auto">
     <i class="bi bi-clock-history me-2"></i>
     سجل الاستماع
   </h2>
 
   <!-- Empty State -->
   @if (episodes.length === 0) {
-    <div class="empty-state">
+    <div class="empty-state" dir="auto">
       <i class="bi bi-music-note-list"></i>
       <p>لم تستمع لأي حلقات بعد</p>
     </div>
   }
 
-  <!-- TODO: implement episode-detail history -->
   <!-- Episode List -->
   @if (episodes.length > 0) {
     <div class="episodes-list">
@@ -22,7 +21,7 @@
             <h3 class="episode-title">{{ episode.episodeTitle }}</h3>
 
             <!-- Metadata -->
-            <div class="episode-meta">
+            <div class="episode-meta" dir="auto">
               <time class="episode-date">
                 <i class="bi bi-calendar3 me-1"></i>
                 {{ episode.lastPlayedDate | date:'short':'':'ar-SA' }}
@@ -30,7 +29,7 @@
 
               <span class="episode-duration">
             <i class="bi bi-clock me-1"></i>
-                <!-- TODO: {{ episodePlayerService.formatTime(episode.lastPositionSeconds) }} -->
+                {{ episodePlayerService.formatTime(episode.lastPositionSeconds) }}
           </span>
 
               <span class="play-count">
@@ -40,7 +39,7 @@
             </div>
 
             <!-- Rating Display -->
-            <div class="episode-rating">
+            <div class="episode-rating" dir="auto">
               <span class="rating-label">تقييمك:</span>
               <div class="rating-stars">
                 @for (star of [1, 2, 3, 4, 5]; track star) {
@@ -60,28 +59,29 @@
             @if (!episode.isCompleted) {
               <div class="progress-wrapper">
                 <div class="progress-bar-container">
-                  <div class="progress-bar" [style.width.%]="episode.completionPercentage"></div>
+                  <div class="progress-bar" [style.width.%]="getAccurateProgressPercentage(episode)"></div>
                 </div>
-                <span class="progress-text">{{ episode.completionPercentage.toFixed(0) }}%</span>
+                <span class="progress-text">{{ getAccurateProgressPercentage(episode).toFixed(0) }}%</span>
               </div>
             }
 
-            <!-- Completion Badge -->
+            <!-- TODO: Completion Badge (buggy. no brain cells to fix it now)
             <div class="status-badge">
               @if (episode.isCompleted) {
                 <span class="badge-complete">
               <i class="bi bi-check-circle-fill me-1"></i>
               مكتمل
             </span>
-              }
-              @if (!episode.isCompleted) {
+              } @else {
                 <span class="badge-progress">
               <i class="bi bi-hourglass-split me-1"></i>
-              قيد الاستماع
+              غير مكتمل
             </span>
               }
             </div>
+            -->
           </div>
+
 
           <!-- Episode Cover Image -->
           <div class="episode-cover-wrapper">

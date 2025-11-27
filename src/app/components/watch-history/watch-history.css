@@ -17,6 +17,7 @@
 .history-title i {
   color: #667eea;
   font-size: 2rem;
+  margin: 0 0 0 0.5rem;
 }
 
 /* Empty State */
@@ -109,6 +110,7 @@
 .episode-meta i {
   font-size: 0.875rem;
   color: #a0aec0;
+  margin-left: 0.5rem;
 }
 
 /* Rating */

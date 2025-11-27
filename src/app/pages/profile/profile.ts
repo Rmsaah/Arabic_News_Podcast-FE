@@ -2,12 +2,12 @@ import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { UserService } from '../../services/user.service';
-//TODO: import { EpisodeApiService } from '../../services/episode-api.service';
-//TODO: import { EpisodePlayerService } from '../../services/episode-player.service';
+import { EpisodeApiService } from '../../services/episode-api.service';
+import { EpisodePlayerService } from '../../services/episode-player.service';
 import { AuthService } from '../../services/auth.service';
 import { UserStats } from '../../components/user-stats/user-stats';
 import { UserInfo } from '../../components/user-info/user-info';
-//TODO: import { WatchHistory } from '../../components/watch-history/watch-history';
+import { WatchHistory } from '../../components/watch-history/watch-history';
 import { EditProfileModal } from '../../components/edit-profile-modal/edit-profile-modal';
 import { UserProfileDto, EpisodeDto } from '../../models/episode.model';
 
@@ -19,7 +19,7 @@ import { UserProfileDto, EpisodeDto } from '../../models/episode.model';
     RouterModule,
     UserStats,
     UserInfo,
-    //TODO: WatchHistory,
+    WatchHistory,
     EditProfileModal
   ],
   templateUrl: './profile.html',
@@ -33,8 +33,8 @@ export class Profile implements OnInit {
 
   constructor(
     private userService: UserService,
-    //TODO: private episodeApiService: EpisodeApiService,
-    //TODO: private episodePlayerService: EpisodePlayerService,
+    private episodeApiService: EpisodeApiService,
+    private episodePlayerService: EpisodePlayerService,
     private authService: AuthService,
     private router: Router
   ) {}
@@ -89,7 +89,7 @@ export class Profile implements OnInit {
       this.loadUserProfile(currentUser.id);
     }
   }
-/* TODO: user-episode history stuff
+
   playEpisodeById(episodeId: string): void {
     this.episodeApiService.getEpisodeById(episodeId).subscribe({
       next: (episode: EpisodeDto) => {
@@ -101,7 +101,7 @@ export class Profile implements OnInit {
       }
     });
   }
-*/
+
   logout(): void {
     this.authService.logout();
     this.router.navigate(['/']);

@@ -1,7 +1,8 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { EpisodeHistoryDto } from '../../models/episode.model';
-//import { EpisodePlayerService } from '../../services/episode-player.service';
+import { EpisodePlayerService } from '../../services/episode-player.service';
+import { EpisodeApiService } from '../../services/episode-api.service';
 
 @Component({
   selector: 'app-watch-history',
@@ -10,11 +11,53 @@ import { EpisodeHistoryDto } from '../../models/episode.model';
   templateUrl: './watch-history.html',
   styleUrl: './watch-history.css'
 })
-export class WatchHistory {
+export class WatchHistory implements OnChanges {
   @Input() episodes: EpisodeHistoryDto[] = [];
   @Output() playEpisode = new EventEmitter<string>();
 
-  //constructor(public episodePlayerService: EpisodePlayerService) {}
+  // Store episode durations to calculate accurate progress
+  private episodeDurations = new Map<string, number>();
+
+  constructor(
+    public episodePlayerService: EpisodePlayerService,
+    private episodeApiService: EpisodeApiService
+  ) {}
+
+  ngOnChanges(): void {
+    // When episodes input changes, fetch durations for accurate progress calculation
+    this.episodes.forEach(episode => {
+      if (!this.episodeDurations.has(episode.episodeId)) {
+        this.fetchEpisodeDuration(episode.episodeId);
+      }
+    });
+  }
+
+  private fetchEpisodeDuration(episodeId: string): void {
+    this.episodeApiService.getEpisodeById(episodeId).subscribe({
+      next: (episode) => {
+        this.episodeDurations.set(episode.id, episode.durationSeconds);
+      },
+      error: (err) => {
+        console.error('Failed to fetch episode duration:', err);
+      }
+    });
+  }
+
+  /**
+   * Get accurate completion percentage based on actual episode duration
+   * This fixes the issue where backend completionPercentage might be inaccurate
+   */
+  getAccurateProgressPercentage(episode: EpisodeHistoryDto): number {
+    const duration = this.episodeDurations.get(episode.episodeId);
+
+    // If we have the duration, calculate accurately
+    if (duration && duration > 0) {
+      return Math.min(100, (episode.lastPositionSeconds / duration) * 100);
+    }
+
+    // Fallback to backend's calculation
+    return episode.completionPercentage;
+  }
 
   onPlayClick(episodeId: string): void {
     this.playEpisode.emit(episodeId);
