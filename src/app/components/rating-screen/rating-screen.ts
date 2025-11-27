@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { EpisodeApiService } from '../../services/episode-api.service';
 import { RatingService } from '../../services/rating.service';
 import { EpisodePlayerService } from '../../services/episode-player.service';
+import { PlaceholderService } from '../../services/placeholder.service';
 import { EpisodeDto, RatingRequestDto } from '../../models/episode.model';
 
 @Component({
@@ -26,7 +27,8 @@ export class RatingScreen implements OnInit, OnChanges {
   constructor(
     private episodeApiService: EpisodeApiService,
     private ratingService: RatingService,
-    public episodePlayerService: EpisodePlayerService
+    public episodePlayerService: EpisodePlayerService,
+    private placeholderService: PlaceholderService
   ) {}
 
   ngOnInit(): void {
@@ -109,7 +111,7 @@ export class RatingScreen implements OnInit, OnChanges {
     if (episode?.imageUrl && episode.imageUrl.trim() !== '') {
       return episode.imageUrl;
     }
-    return 'https://via.placeholder.com/400x300/667eea/ffffff?text=Arabic+News+Podcast';
+    return this.placeholderService.generatePlaceholder();
   }
 
   /**
@@ -117,6 +119,6 @@ export class RatingScreen implements OnInit, OnChanges {
    */
   onImageError(event: Event): void {
     const img = event.target as HTMLImageElement;
-    img.src = 'https://via.placeholder.com/400x300/667eea/ffffff?text=Arabic+News+Podcast';
+    img.src = this.placeholderService.generatePlaceholder();
   }
 }

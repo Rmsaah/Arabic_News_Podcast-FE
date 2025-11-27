@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { EpisodeApiService } from '../../services/episode-api.service';
 import { EpisodePlayerService } from '../../services/episode-player.service';
+import { PlaceholderService } from '../../services/placeholder.service';
 import { EpisodeDto } from '../../models/episode.model';
 
 @Component({
@@ -22,7 +23,8 @@ export class LatestEpisodes implements OnInit {
 
   constructor(
     private episodeApiService: EpisodeApiService,
-    public episodePlayerService: EpisodePlayerService
+    public episodePlayerService: EpisodePlayerService,
+    private placeholderService: PlaceholderService
   ) {}
 
   ngOnInit(): void {
@@ -59,7 +61,7 @@ export class LatestEpisodes implements OnInit {
     }
 
     // Fallback to a default placeholder image
-    return 'https://placehold.co/400x300/667eea/ffffff?text=3ulum+Alyawm';
+    return this.placeholderService.generatePlaceholder();
   }
 
   /**
@@ -68,6 +70,6 @@ export class LatestEpisodes implements OnInit {
   onImageError(event: Event): void {
     const img = event.target as HTMLImageElement;
     // Set fallback image if the original fails to load
-    img.src = 'https://placehold.co/400x300/667eea/ffffff?text=3ulum+Alyawm';
+    img.src = this.placeholderService.generatePlaceholder();
   }
 }

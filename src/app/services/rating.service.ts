@@ -26,14 +26,4 @@ export class RatingService {
     return this.http.post<RatingResponseDto>(this.apiUrl, request);
   }
 
-  /**
-   * NOTE: The following endpoints are NOT available in the backend:
-   * - GET /api/ratings/episode/{episodeId}/user (get user's rating)
-   * - GET /api/ratings/episode/{episodeId} (get all ratings for episode)
-   * - GET /api/ratings/episode/{episodeId}/average (get average rating)
-   * - DELETE /api/ratings/{ratingId} (delete rating)
-   *
-   * Average ratings and rating counts are included in EpisodeDto.averageRating and EpisodeDto.ratingCount
-   * User's rating history is available in UserProfileDto.recentRatings
-   */
 }
