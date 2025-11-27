@@ -50,8 +50,7 @@ export class RegisterModal {
 
   onSubmit(): void {
     // Validate
-    if (!this.username.trim() || !this.email.trim() || !this.password.trim() ||
-      !this.firstName.trim() || !this.lastName.trim()) {
+    if (!this.username.trim() || !this.email.trim() || !this.password.trim()) {
       this.errorMessage.set('يرجى ملء جميع الحقول المطلوبة');
       return;
     }
@@ -117,7 +116,16 @@ export class RegisterModal {
         console.error('Registration failed:', err);
 
         if (err.status === 409) {
-          this.errorMessage.set('اسم المستخدم أو البريد الإلكتروني مستخدم بالفعل');
+          // Display the specific message from backend
+          const backendMessage = err.error?.message || err.error?.error;
+
+          console.log("409-error: ", backendMessage)
+
+          if (backendMessage?.includes('Username')) {
+            this.errorMessage.set('اسم المستخدم تم استخدامه من قبل');
+          } else if (backendMessage?.includes('Email')) {
+            this.errorMessage.set('البريد الإلكتروني تم استخدامه من قبل');
+          }
         } else if (err.error?.message) {
           this.errorMessage.set(err.error.message);
         } else {
