@@ -1,0 +1,44 @@
+import { Component, Input } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { EpisodePlayerService } from '../../services/episode-player.service';
+import { EpisodeDto } from '../../models/episode.model';
+
+@Component({
+  selector: 'app-episode-list',
+  standalone: true,
+  imports: [CommonModule],
+  templateUrl: './episode-list.html',
+  styleUrl: './episode-list.css'
+})
+export class EpisodeList {
+  @Input() episodes: EpisodeDto[] = [];
+  @Input() loading: boolean = false;
+  @Input() error: string = '';
+
+  constructor(
+    public episodePlayerService: EpisodePlayerService
+  ) {}
+
+  playEpisode(episode: EpisodeDto): void {
+    this.episodePlayerService.setCurrentEpisode(episode);
+    this.episodePlayerService.play();
+  }
+
+  /**
+   * Get image URL with fallback to placeholder
+   */
+  getImageUrl(episode: EpisodeDto): string {
+    if (episode.imageUrl && episode.imageUrl.trim() !== '') {
+      return episode.imageUrl;
+    }
+    return 'https://via.placeholder.com/400x300/667eea/ffffff?text=Arabic+News+Podcast';
+  }
+
+  /**
+   * Handle image loading errors by setting fallback
+   */
+  onImageError(event: Event): void {
+    const img = event.target as HTMLImageElement;
+    img.src = 'https://via.placeholder.com/400x300/667eea/ffffff?text=Arabic+News+Podcast';
+  }
+}

@@ -1,0 +1,176 @@
+.episode-list-container {
+  padding: 20px 0;
+}
+
+.episode-card {
+  border: none;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.episode-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
+}
+
+/* Episode Image Wrapper */
+.episode-image-wrapper {
+  position: relative;
+  cursor: pointer;
+}
+
+.card-img-top {
+  transition: transform 0.3s ease;
+}
+
+.episode-image-wrapper:hover .card-img-top {
+  transform: scale(1.05);
+}
+
+/* Play Overlay */
+.play-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.episode-image-wrapper:hover .play-overlay {
+  opacity: 1;
+}
+
+.play-overlay i {
+  font-size: 4rem;
+  color: white;
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.3));
+}
+
+/* Duration Badge */
+.duration-badge {
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  background: rgba(0, 0, 0, 0.75);
+  color: white;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  backdrop-filter: blur(4px);
+  z-index: 1;
+}
+
+/* Card Body */
+.card-body {
+  padding: 1.5rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Title and Rating Row */
+.card-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #2c3e50;
+  line-height: 1.4;
+  max-width: 70%;
+  margin-bottom: 0;
+}
+
+.rating-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.rating-value {
+  font-weight: 600;
+  color: #2c3e50;
+  font-size: 0.95rem;
+}
+
+.rating-count {
+  color: #6c757d;
+  font-size: 0.8rem;
+}
+
+/* Description */
+.card-text {
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin-bottom: 1rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+/* Publication Date */
+.episode-date {
+  display: flex;
+  align-items: center;
+  color: #6c757d;
+  font-size: 0.85rem;
+  margin-top: auto;
+  padding-top: 0.5rem;
+  border-top: 1px solid #e9ecef;
+}
+
+.episode-date i {
+  font-size: 0.9rem;
+}
+
+/* Card Footer with Play Button */
+.card-footer {
+  padding: 0 1.5rem 1.5rem 1.5rem;
+}
+
+.btn-primary {
+  border-radius: 8px;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+}
+
+/* Responsive Design */
+@media (max-width: 767px) {
+  .card-title {
+    font-size: 1rem;
+    max-width: 65%;
+  }
+
+  .rating-badge {
+    font-size: 0.85rem;
+  }
+
+  .card-text {
+    font-size: 0.85rem;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+  }
+
+  .episode-date {
+    font-size: 0.8rem;
+  }
+
+  .play-overlay i {
+    font-size: 3rem;
+  }
+}

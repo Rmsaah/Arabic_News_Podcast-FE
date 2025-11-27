@@ -1,0 +1,60 @@
+<div class="episodes-page-container">
+  <div class="container">
+    <div class="page-header text-center py-4">
+      <h1 class="display-5 fw-bold">
+        جميع الحلقات
+        <i class="bi bi-collection-play me-2"></i>
+      </h1>
+      <p class="lead text-muted">تصفح واستمع إلى جميع حلقات بودكاست الأخبار العربية</p>
+    </div>
+
+    <app-search (searchEvent)="onSearch($event)"></app-search>
+
+    <!-- Search query indicator -->
+    @if (searchQuery()) {
+      <div class="alert alert-info d-flex justify-content-between align-items-center my-3">
+        <span>
+          <i class="bi bi-search me-2"></i>
+          نتائج البحث عن: "{{ searchQuery() }}"
+        </span>
+        <button class="btn btn-sm btn-outline-secondary" (click)="onSearch('')">
+          <i class="bi bi-x-circle me-1"></i>
+          مسح البحث
+        </button>
+      </div>
+    }
+
+    <!-- Episode List Component (handles display) -->
+    <app-episode-list
+      [episodes]="episodes()"
+      [loading]="loading()"
+      [error]="error()">
+    </app-episode-list>
+
+    <!-- Pagination -->
+    @if (!loading() && !error() && totalPages() > 1) {
+      <nav class="mt-4">
+        <ul class="pagination justify-content-center">
+          <li class="page-item" [class.disabled]="currentPage() === 0">
+            <a class="page-link" (click)="loadPage(currentPage() - 1)" style="cursor: pointer;">
+              السابق
+            </a>
+          </li>
+          @for (page of [].constructor(totalPages()); track $index) {
+            <li class="page-item" [class.active]="$index === currentPage()">
+              <a class="page-link" (click)="loadPage($index)" style="cursor: pointer;">
+                {{ $index + 1 }}
+              </a>
+            </li>
+          }
+          <li class="page-item" [class.disabled]="currentPage() === totalPages() - 1">
+            <a class="page-link" (click)="loadPage(currentPage() + 1)" style="cursor: pointer;">
+              التالي
+            </a>
+          </li>
+        </ul>
+      </nav>
+    }
+  </div>
+</div>
+
