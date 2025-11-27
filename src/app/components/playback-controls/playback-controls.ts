@@ -213,7 +213,14 @@ export class PlaybackControls implements OnInit, AfterViewInit, OnDestroy {
     const progressBar = event.currentTarget as HTMLElement;
     const rect = progressBar.getBoundingClientRect();
     const clickX = event.clientX - rect.left;
-    const percentage = clickX / rect.width;
+
+    // Check if the progress bar is actually rendered as RTL
+    const isRTL = getComputedStyle(progressBar).direction === 'rtl';
+
+    // For RTL, invert the calculation
+    const percentage = isRTL
+      ? (rect.width - clickX) / rect.width  // RTL: right is 0%, left is 100%
+      : clickX / rect.width;                 // LTR: left is 0%, right is 100%
 
     const audio = this.audioPlayer.nativeElement;
     const duration = this.currentPodcast()?.durationSeconds || audio.duration || 0;
