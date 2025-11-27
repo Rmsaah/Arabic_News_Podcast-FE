@@ -36,13 +36,13 @@
     @if (!loading && !error) {
       <div class="row g-4">
         @for (episode of episodes; track episode.id) {
-          <div class="col-md-6 col-lg-4">
-            <div class="episode-card" (click)="playEpisode(episode)">
-              <!-- Episode Image -->
-              <div class="episode-image-wrapper">
+          <div class="col-12 col-md-6 col-lg-4">
+            <div class="card h-100 shadow-sm episode-card" dir="auto">
+              <!-- Episode Image with Duration Badge and Play Overlay -->
+              <div class="episode-image-wrapper" (click)="playEpisode(episode)">
                 <img
                   [src]="getImageUrl(episode)"
-                  class="episode-image"
+                  class="card-img-top"
                   [alt]="episode.title"
                   (error)="onImageError($event)">
                 <div class="play-overlay">
@@ -51,28 +51,35 @@
                 <span class="duration-badge">{{ episodePlayerService.formatTime(episode.durationSeconds) }}</span>
               </div>
 
-              <!-- Episode Content -->
-              <div class="episode-content">
-                <div class="episode-meta">
-                  <span class="date-text">
-                    <i class="bi bi-calendar3 me-1"></i>
-                    {{ episode.creationDate | date:'short' }}
-                  </span>
+              <div class="card-body">
+                <!-- Title and Rating on Same Row -->
+                <div class="d-flex justify-content-between align-items-start mb-3">
+                  <h5 class="card-title mb-0 flex-grow-1">{{ episode.title }}</h5>
+                  <div class="rating-badge ms-2">
+                    <i class="bi bi-star-fill text-warning"></i>
+                    <span class="rating-count">({{ episode.ratingCount }})</span>
+                    <span class="rating-value">{{ episode.averageRating.toFixed(1) }}</span>
+                  </div>
                 </div>
 
-                <h5 class="episode-title">{{ episode.title }}</h5>
-
-                <p class="episode-description">
+                <!-- Description -->
+                <p class="card-text text-muted">
                   {{ episode.description || episode.articleAuthor }}
                 </p>
 
-                <div class="episode-footer" dir="rtl">
-                  <div class="rating-section">
-                    <i class="bi bi-star-fill"></i>
-                    <span class="rating-value">{{ episode.averageRating.toFixed(1) }}</span>
-                    <span class="rating-count">({{ episode.ratingCount }})</span>
-                  </div>
+                <!-- Publication Date -->
+                <div class="episode-date" dir="auto">
+                  <i class="bi bi-calendar3 me-1"></i>
+                  <span>{{ episode.creationDate | date:'short' }}</span>
                 </div>
+              </div>
+
+              <!-- Play Button -->
+              <div class="card-footer bg-transparent border-0 pt-0">
+                <button (click)="playEpisode(episode)" class="btn btn-primary btn-sm w-100">
+                  <i class="bi bi-play-circle me-1"></i>
+                  استمع الآن
+                </button>
               </div>
             </div>
           </div>
