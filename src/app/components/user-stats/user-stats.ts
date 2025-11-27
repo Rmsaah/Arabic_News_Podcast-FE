@@ -1,6 +1,5 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-//import { EpisodePlayerService } from '../../services/episode-player.service';
 
 @Component({
   selector: 'app-user-stats',
@@ -15,8 +14,6 @@ export class UserStats {
   @Input() totalRatings: number = 0;
   @Input() totalHistory: number = 0;
 
-  //constructor(public episodePlayerService: EpisodePlayerService) {}
-
   /**
    * Format seconds into human-readable time
    * Examples: "5 hours 23 minutes", "45 minutes", "2 hours"
@@ -25,18 +22,20 @@ export class UserStats {
     const seconds = this.totalSecondsListened;
 
     if (seconds === 0) {
-      return '0 دقيقة';
+      return '0:00m';
     }
 
     const hours = Math.floor(seconds / 3600);
     const minutes = Math.floor((seconds % 3600) / 60);
 
-    if (hours > 0 && minutes > 0) {
-      return `${hours} ${hours === 1 ? 'ساعة' : 'ساعات'} و ${minutes} ${minutes === 1 ? 'دقيقة' : 'دقائق'}`;
-    } else if (hours > 0) {
-      return `${hours} ${hours === 1 ? 'ساعة' : 'ساعات'}`;
+    if (hours > 0) {
+      // Format: "2:45h" (2 hours 45 minutes)
+      const paddedMinutes = minutes.toString().padStart(2, '0');
+      return `${hours}:${paddedMinutes}h`;
     } else {
-      return `${minutes} ${minutes === 1 ? 'دقيقة' : 'دقائق'}`;
+      // Format: "0:45m" (45 minutes)
+      const paddedMinutes = minutes.toString().padStart(2, '0');
+      return `0:${paddedMinutes}m`;
     }
   }
 }

@@ -22,6 +22,11 @@ export class UserInfo {
     if (this.firstName && this.lastName) {
       return `${this.firstName} ${this.lastName}`;
     }
+
+    if (this.firstName) {
+      return `${this.firstName}`;
+    }
+
     return this.username;
   }
 

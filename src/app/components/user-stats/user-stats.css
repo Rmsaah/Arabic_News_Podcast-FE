@@ -82,7 +82,7 @@
 }
 
 .stat-number {
-  font-size: 2rem;
+  font-size: 1.8rem;
   font-weight: 700;
   margin-bottom: 0.25rem;
   color: white;
@@ -90,7 +90,7 @@
 }
 
 .stat-label {
-  font-size: 0.875rem;
+  font-size: 1rem;
   margin: 0;
   color: rgba(255, 255, 255, 0.9);
   font-weight: 500;
