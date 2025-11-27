@@ -3,13 +3,13 @@ import { CommonModule } from '@angular/common';
 import { Subscription, interval } from 'rxjs';
 import { EpisodePlayerService } from '../../services/episode-player.service';
 import { ProgressService } from '../../services/progress.service';
-// TODO: import { RatingScreenComponent } from '../rating-screen/rating-screen.component';
+import { RatingScreen } from '../rating-screen/rating-screen';
 import { EpisodeDto, EpisodeProgressUpdateDto } from '../../models/episode.model';
 
 @Component({
   selector: 'app-playback-controls',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RatingScreen],
   templateUrl: './playback-controls.html',
   styleUrl: './playback-controls.css'
 })
@@ -395,7 +395,7 @@ export class PlaybackControls implements OnInit, AfterViewInit, OnDestroy {
           // If episode was completed but user is playing again, it's a rewatch
           // Reset to beginning and allow fresh playCount increment
           if (progress.isCompleted) {
-            console.log('🔄 Episode was completed - starting fresh rewatch');
+            console.log('Episode was completed - starting fresh rewatch');
             this.hasReached10Percent = false;
             // Start from beginning for rewatch
             return;
@@ -407,7 +407,7 @@ export class PlaybackControls implements OnInit, AfterViewInit, OnDestroy {
               this.audioPlayer.nativeElement.currentTime = progress.lastPositionSeconds;
               this.episodePlayerService.setCurrentPosition(progress.lastPositionSeconds);
             }
-            console.log(`▶️  Resumed from ${progress.formattedPosition}`);
+            console.log(`Resumed from ${progress.formattedPosition}`);
 
             // Since progress record exists, backend already has this episode tracked
             // Set hasReached10Percent to true so progress saves work normally
@@ -415,14 +415,14 @@ export class PlaybackControls implements OnInit, AfterViewInit, OnDestroy {
             this.hasReached10Percent = true;
           } else {
             // Progress record exists but at position 0 - could be a rewatch
-            console.log('🔄 Progress at 0 - treating as new play session');
+            console.log('Progress at 0 - treating as new play session');
             this.hasReached10Percent = false;
           }
         }
       },
       error: (err) => {
         // No saved progress found, start from beginning (first time playing)
-        console.log('🆕 No saved progress - first time playing this episode', err);
+        console.log('No saved progress - first time playing this episode', err);
         this.hasReached10Percent = false;
       }
     });
@@ -447,12 +447,12 @@ export class PlaybackControls implements OnInit, AfterViewInit, OnDestroy {
     // Note: hasReached10Percent may already be true if resuming from saved progress
     if (!this.hasReached10Percent) {
       if (completionPercentage >= 10) {
-        console.log(`🎯 Reached 10% threshold (${completionPercentage.toFixed(1)}%) - counting as played`);
+        console.log(`Reached 10% threshold (${completionPercentage.toFixed(1)}%) - counting as played`);
         this.hasReached10Percent = true;
         // Continue to save progress below
       } else {
         // User hasn't reached 10% yet, don't save to backend
-        console.log(`⏸️  Below 10% (${completionPercentage.toFixed(1)}%) - waiting to count as played`);
+        console.log(`⏸Below 10% (${completionPercentage.toFixed(1)}%) - waiting to count as played`);
         return;
       }
     }
@@ -491,10 +491,10 @@ export class PlaybackControls implements OnInit, AfterViewInit, OnDestroy {
     console.log(`📋 Marking episode as complete (episodeId: ${episodeId}, duration: ${duration}s)`);
     this.progressService.markComplete(episodeId, duration).subscribe({
       next: () => {
-        console.log('✅ Episode successfully marked as complete in backend');
+        console.log('Episode successfully marked as complete in backend');
       },
       error: (err) => {
-        console.error('❌ Failed to mark episode as complete:', err);
+        console.error('Failed to mark episode as complete:', err);
       }
     });
   }

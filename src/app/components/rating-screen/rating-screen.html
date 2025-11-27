@@ -1,0 +1,149 @@
+<!-- Rating Screen (Plex-style) -->
+@if (visible && episode) {
+  <div class="rating-screen-wrapper">
+    <!-- Backdrop -->
+    <div class="rating-backdrop" (click)="closeRatingScreen()"></div>
+
+    <!-- Rating Screen Content -->
+    <div class="rating-screen-container">
+      <div class="container-fluid h-100" dir="auto">
+
+        <!-- Header -->
+        <div class="rating-header">
+          <h5 class="text-white mb-0">تم انتهاء الحلقة</h5>
+          <button class="btn btn-link text-white" (click)="closeRatingScreen()">
+            <i class="bi bi-x-lg fs-5"></i>
+          </button>
+        </div>
+
+        <!-- Scrollable Content -->
+        <div class="rating-content">
+
+          <!-- Episode Info Section -->
+          <div class="rating-episode-info">
+            <div class="row align-items-center g-4">
+
+              <!-- Episode Cover (Left Side - Smaller) -->
+              <div class="col-md-2 col-3">
+                <div class="rating-cover-wrapper">
+                  <img
+                    [src]="getImageUrl(episode)"
+                    [alt]="episode.title"
+                    class="rating-cover"
+                    (error)="onImageError($event)">
+                </div>
+              </div>
+
+              <!-- Episode Details (Right Side - More space) -->
+              <div class="col-md-10 col-9">
+                <h3 class="rating-episode-title">{{ episode.title }}</h3>
+                <p class="rating-episode-subtitle">{{ episode.articleAuthor }}</p>
+
+                <!-- Meta Info -->
+                <div class="rating-meta">
+                <span class="rating-meta-item">
+                  <i class="bi bi-clock"></i>
+                  {{ episodePlayerService.formatTime(episode.durationSeconds) }}
+                </span>
+                  <span class="rating-meta-item">
+                  <i class="bi bi-calendar3"></i>
+                    {{ episode.creationDate | date:'short' }}
+                </span>
+                </div>
+
+                <!-- Average Rating Display -->
+                <div class="average-rating-section">
+                  <div class="average-rating-label">متوسط التقييم:</div>
+                  <div class="average-rating-stars">
+                    @for (star of [1,2,3,4,5]; track star) {
+                      <i class="bi"
+                         [class.bi-star-fill]="star <= episode.averageRating"
+                         [class.bi-star]="star > episode.averageRating"></i>
+                    }
+                    <span class="average-rating-value">{{ episode.averageRating.toFixed(1) }}</span>
+                    <span class="rating-count-text">({{ episode.ratingCount }} تقييم)</span>
+                  </div>
+                </div>
+
+                <!-- User Rating Section -->
+                <div class="user-rating-section">
+                  <div class="user-rating-label">قيّم هذه الحلقة:</div>
+                  <div class="user-rating-stars">
+                    @for (star of [1,2,3,4,5]; track star) {
+                      <i class="bi rating-star"
+                         [class.bi-star-fill]="star <= (hoverRating() || userRating())"
+                         [class.bi-star]="star > (hoverRating() || userRating())"
+                         [class.rated]="star <= userRating()"
+                         [class.hover]="star <= hoverRating()"
+                         (mouseenter)="onStarHover(star)"
+                         (mouseleave)="onStarLeave()"
+                         (click)="setRating(star)"></i>
+                    }
+                  </div>
+                  @if (ratingSubmitted()) {
+                    <div class="rating-success-message">
+                      <i class="bi bi-check-circle-fill me-2"></i>
+                      تم إرسال تقييمك بنجاح!
+                    </div>
+                  }
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+          <!-- Listen Next Section -->
+          <div class="listen-next-section">
+            <h4 class="listen-next-title">
+              <i class="bi bi-music-note-list me-2"></i>
+              استمع بعد ذلك
+            </h4>
+
+            @if (relatedEpisodes().length === 0) {
+              <div class="text-center py-4">
+                <div class="spinner-border text-light" role="status">
+                  <span class="visually-hidden">جاري التحميل...</span>
+                </div>
+              </div>
+            }
+
+            @if (relatedEpisodes().length > 0) {
+              <div class="row g-3">
+                @for (ep of relatedEpisodes(); track ep.id) {
+                  <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+                    <div class="related-episode-card" (click)="playRelatedEpisode(ep)">
+                      <div class="related-episode-image-wrapper">
+                        <img
+                          [src]="ep.imageUrl || 'assets/placeholder.jpg'"
+                          [alt]="ep.title"
+                          class="related-episode-image"
+                          onerror="this.src='assets/placeholder.jpg'">
+                        <div class="related-play-overlay">
+                          <i class="bi bi-play-circle-fill"></i>
+                        </div>
+                      </div>
+                      <div class="related-episode-info">
+                        <h6 class="related-episode-title">{{ ep.title }}</h6>
+                        <div class="related-episode-meta">
+                          <span class="related-meta-item">
+                          <i class="bi bi-clock"></i>
+                            {{ episodePlayerService.formatTime(ep.durationSeconds) }}
+                        </span>
+                          <span class="related-meta-item">
+                          <i class="bi bi-star-fill"></i>
+                          {{ ep.averageRating.toFixed(1) }}
+                        </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                }
+              </div>
+            }
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+}
