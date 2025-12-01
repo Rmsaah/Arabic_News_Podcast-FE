@@ -37,7 +37,7 @@
               }
               <div class="episode-details" (click)="toggleExpand()">
                 <h6 class="episode-title-mini">{{ currentPodcast()!.title }}</h6>
-                <small class="episode-subtitle-mini">{{ currentPodcast()!.articleAuthor}}</small>
+                <small class="episode-subtitle-mini">{{ currentPodcast()!.articleAuthor }}</small>
               </div>
             </div>
 
@@ -107,131 +107,19 @@
 
       <!-- Expanded Player (Full-screen overlay) -->
       @if (isExpanded()) {
-        <div class="expanded-player" dir="auto">
-
-          <!-- Header with close button -->
-          <div class="expanded-header">
-            <button class="btn-header" (click)="collapsePlayer()" title="تصغير">
-              <i class="bi bi-chevron-down"></i>
-            </button>
-            <h5 class="expanded-title">تشتغل الآن</h5>
-            <button class="btn-header btn-danger" (click)="close()" title="إيقاف وإغلاق">
-              <i class="bi bi-x-lg"></i>
-            </button>
-          </div>
-
-          <!-- Content Area (centered vertically) -->
-          <div class="expanded-content">
-
-            <!-- Episode Cover Image -->
-            <div class="cover-wrapper">
-              <img
-                [src]="currentPodcast()!.imageUrl || 'https://placehold.co/400x300/667eea/ffffff?text=3ulum+Alyawm'"
-                [alt]="currentPodcast()!.title"
-                class="cover-large">
-            </div>
-
-            <!-- Episode Info -->
-            <div class="info-wrapper">
-              <h2 class="title-large">{{ currentPodcast()!.title }}</h2>
-              <p class="subtitle-large">{{ currentPodcast()!.articleAuthor }}</p>
-
-              <!-- Meta Information -->
-              <div class="meta-row">
-                <span class="meta-badge">
-                  <i class="bi bi-star-fill"></i>
-                  {{ currentPodcast()!.averageRating.toFixed(1) }}
-                  <small>({{ currentPodcast()!.ratingCount }})</small>
-                </span>
-                <span class="meta-badge">
-                  <i class="bi bi-clock"></i>
-                  {{ formattedDuration() }}
-                </span>
-              </div>
-
-              <!-- Description (collapsible) -->
-              @if (currentPodcast()!.description) {
-                <div class="description-box">
-                  <p>{{ currentPodcast()!.description }}</p>
-                </div>
-              }
-
-              <!-- Transcript Link -->
-              @if (currentPodcast()!.scriptUrlPath) {
-                <a [href]="currentPodcast()!.scriptUrlPath"
-                   target="_blank"
-                   class="btn-transcript">
-                  <i class="bi bi-file-text"></i>
-                  عرض النص الكامل
-                </a>
-              }
-            </div>
-
-          </div>
-
-          <!-- Playback Controls (Fixed at bottom) -->
-          <div class="expanded-controls">
-
-            <!-- Progress Bar -->
-            <div class="progress-section-expanded">
-              <div class="progress-bar-container" (click)="seekToPosition($event)">
-                <div class="progress-bar-bg">
-                  <div
-                    class="progress-bar-fill"
-                    [style.width.%]="(currentPosition() / currentPodcast()!.durationSeconds) * 100">
-                  </div>
-                </div>
-              </div>
-              <div class="time-row">
-                <span class="time-display">{{ formattedPosition() }}</span>
-                <span class="time-display">{{ formattedDuration() }}</span>
-              </div>
-            </div>
-
-            <!-- Control Buttons -->
-            <div class="controls-buttons-expanded">
-              <button
-                class="btn-control-expanded"
-                (click)="seek(-10)"
-                title="رجوع 10 ثانية">
-                <i class="bi bi-skip-backward-fill"></i>
-                <small>10s</small>
-              </button>
-
-              <button
-                class="btn-control-expanded btn-play-expanded"
-                (click)="togglePlayPause()"
-                [title]="isPlaying() ? 'إيقاف مؤقت' : 'تشغيل'">
-                <i [class]="isPlaying() ? 'bi bi-pause-fill' : 'bi bi-play-fill'"></i>
-              </button>
-
-              <button
-                class="btn-control-expanded"
-                (click)="seek(10)"
-                title="تقديم 10 ثانية">
-                <i class="bi bi-skip-forward-fill"></i>
-                <small>10s</small>
-              </button>
-            </div>
-
-            <!-- Playback Speed -->
-            <div class="speed-control">
-              <label>سرعة التشغيل:</label>
-              <select
-                class="speed-select"
-                (change)="setPlaybackRate(+$any($event.target).value)">
-                <option value="0.5">0.5x</option>
-                <option value="0.75">0.75x</option>
-                <option value="1" selected>1x</option>
-                <option value="1.25">1.25x</option>
-                <option value="1.5">1.5x</option>
-                <option value="2">2x</option>
-              </select>
-            </div>
-
-          </div>
-
-        </div>
+        <app-expanded-player
+          [episode]="currentPodcast()!"
+          [currentPosition]="currentPosition()"
+          [formattedPosition]="formattedPosition()"
+          [formattedDuration]="formattedDuration()"
+          [isPlaying]="isPlaying()"
+          (collapse)="collapsePlayer()"
+          (close)="close()"
+          (togglePlayPause)="togglePlayPause()"
+          (seek)="seek($event)"
+          (seekToPosition)="seekToPosition($event)"
+          (setPlaybackRate)="setPlaybackRate($event)">
+        </app-expanded-player>
       }
 
     </div>

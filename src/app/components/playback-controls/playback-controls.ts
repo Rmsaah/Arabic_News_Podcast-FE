@@ -4,12 +4,13 @@ import { Subscription, interval } from 'rxjs';
 import { EpisodePlayerService } from '../../services/episode-player.service';
 import { ProgressService } from '../../services/progress.service';
 import { RatingScreen } from '../rating-screen/rating-screen';
+import { ExpandedPlayer } from '../expanded-player/expanded-player';
 import { EpisodeDto, EpisodeProgressUpdateDto } from '../../models/episode.model';
 
 @Component({
   selector: 'app-playback-controls',
   standalone: true,
-  imports: [CommonModule, RatingScreen],
+  imports: [CommonModule, RatingScreen, ExpandedPlayer],
   templateUrl: './playback-controls.html',
   styleUrl: './playback-controls.css'
 })

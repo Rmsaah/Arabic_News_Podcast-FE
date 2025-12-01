@@ -1,0 +1,125 @@
+<div class="expanded-player" dir="auto">
+
+  <!-- Header with close button -->
+  <div class="expanded-header">
+    <button class="btn-header" (click)="collapse.emit()" title="تصغير">
+      <i class="bi bi-chevron-down"></i>
+    </button>
+    <h5 class="expanded-title">تشتغل الآن</h5>
+    <button class="btn-header btn-danger" (click)="close.emit()" title="إيقاف وإغلاق">
+      <i class="bi bi-x-lg"></i>
+    </button>
+  </div>
+
+  <!-- Content Area (centered vertically) -->
+  <div class="expanded-content">
+
+    <!-- Episode Cover Image -->
+    <div class="cover-wrapper">
+      <img
+        [src]="episode.imageUrl || 'https://via.placeholder.com/400?text=No+Image'"
+        [alt]="episode.title"
+        class="cover-large">
+    </div>
+
+    <!-- Episode Info -->
+    <div class="info-wrapper">
+      <h2 class="title-large">{{ episode.title }}</h2>
+      <p class="subtitle-large">{{ episode.articleAuthor }}</p>
+
+      <!-- Meta Information -->
+      <div class="meta-row">
+        <span class="meta-badge">
+          <i class="bi bi-star-fill"></i>
+          {{ episode.averageRating.toFixed(1) }}
+          <small>({{ episode.ratingCount }})</small>
+        </span>
+        <span class="meta-badge">
+          <i class="bi bi-clock"></i>
+          {{ formattedDuration }}
+        </span>
+      </div>
+
+      <!-- Description (collapsible) -->
+      @if (episode.description) {
+        <div class="description-box">
+          <p>{{ episode.description }}</p>
+        </div>
+      }
+
+      <!-- Transcript Link -->
+      @if (episode.scriptUrlPath) {
+        <a [href]="episode.scriptUrlPath"
+           target="_blank"
+           class="btn-transcript">
+          <i class="bi bi-file-text"></i>
+          عرض النص الكامل
+        </a>
+      }
+    </div>
+
+  </div>
+
+  <!-- Playback Controls (Fixed at bottom) -->
+  <div class="expanded-controls">
+
+    <!-- Progress Bar -->
+    <div class="progress-section-expanded">
+      <div class="progress-bar-container" (click)="seekToPosition.emit($event)">
+        <div class="progress-bar-bg">
+          <div
+            class="progress-bar-fill"
+            [style.width.%]="(currentPosition / episode.durationSeconds) * 100">
+          </div>
+        </div>
+      </div>
+      <div class="time-row">
+        <span class="time-display">{{ formattedPosition }}</span>
+        <span class="time-display">{{ formattedDuration }}</span>
+      </div>
+    </div>
+
+    <!-- Control Buttons -->
+    <div class="controls-buttons-expanded">
+      <button
+        class="btn-control-expanded"
+        (click)="seek.emit(-15)"
+        title="رجوع 15 ثانية">
+        <i class="bi bi-skip-backward-fill"></i>
+        <small>15s</small>
+      </button>
+
+      <button
+        class="btn-control-expanded btn-play-expanded"
+        (click)="togglePlayPause.emit()"
+        [title]="isPlaying ? 'إيقاف مؤقت' : 'تشغيل'">
+        <i [class]="isPlaying ? 'bi bi-pause-fill' : 'bi bi-play-fill'"></i>
+      </button>
+
+      <button
+        class="btn-control-expanded"
+        (click)="seek.emit(15)"
+        title="تقديم 15 ثانية">
+        <i class="bi bi-skip-forward-fill"></i>
+        <small>15s</small>
+      </button>
+    </div>
+
+    <!-- Playback Speed -->
+    <div class="speed-control">
+      <label>سرعة التشغيل:</label>
+      <select
+        class="speed-select"
+        (change)="setPlaybackRate.emit(+$any($event.target).value)">
+        <option value="0.5">0.5x</option>
+        <option value="0.75">0.75x</option>
+        <option value="1" selected>1x</option>
+        <option value="1.25">1.25x</option>
+        <option value="1.5">1.5x</option>
+        <option value="2">2x</option>
+      </select>
+    </div>
+
+  </div>
+
+</div>
