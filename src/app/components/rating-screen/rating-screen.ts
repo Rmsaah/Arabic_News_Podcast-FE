@@ -4,6 +4,8 @@ import { EpisodeApiService } from '../../services/episode-api.service';
 import { RatingService } from '../../services/rating.service';
 import { EpisodePlayerService } from '../../services/episode-player.service';
 import { PlaceholderService } from '../../services/placeholder.service';
+import { AuthService } from '../../services/auth.service';
+import { AuthModalService } from '../../services/auth-modal.service';
 import { EpisodeDto, RatingRequestDto } from '../../models/episode.model';
 
 @Component({
@@ -28,7 +30,9 @@ export class RatingScreen implements OnInit, OnChanges {
     private episodeApiService: EpisodeApiService,
     private ratingService: RatingService,
     public episodePlayerService: EpisodePlayerService,
-    private placeholderService: PlaceholderService
+    private placeholderService: PlaceholderService,
+    private authService: AuthService,
+    private authModalService: AuthModalService
   ) {}
 
   ngOnInit(): void {
@@ -68,6 +72,14 @@ export class RatingScreen implements OnInit, OnChanges {
 
   setRating(rating: number): void {
     if (!this.episode) return;
+
+    // Check if user is logged in
+    const currentUser = this.authService.getCurrentUser();
+    if (!currentUser) {
+      // Open login modal directly
+      this.authModalService.openLogin();
+      return;
+    }
 
     this.userRating.set(rating);
 
