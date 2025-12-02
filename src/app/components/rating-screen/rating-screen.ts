@@ -61,10 +61,35 @@ export class RatingScreen implements OnInit, OnChanges {
       next: (episodes: EpisodeDto[]) => {
         // Filter out current episode
         const related = episodes.filter((ep: EpisodeDto) => ep.id !== currentEpisode.id).slice(0, 5);
-        this.relatedEpisodes.set(related);
+
+        // If no episodes today, fallback to latest episodes
+        if (related.length === 0) {
+          this.loadLatestEpisodes(currentEpisode);
+        } else {
+          this.relatedEpisodes.set(related);
+        }
       },
       error: (err: any) => {
         console.error('Failed to load related episodes:', err);
+        // Fallback to latest episodes on error
+        this.loadLatestEpisodes(currentEpisode);
+      }
+    });
+  }
+
+  private loadLatestEpisodes(currentEpisode: EpisodeDto): void {
+    // Load latest episodes as fallback
+    this.episodeApiService.getEpisodes(0, 10).subscribe({
+      next: (response: any) => {
+        const episodes = response.content || response;
+        // Filter out current episode
+        const related = episodes
+          .filter((ep: EpisodeDto) => ep.id !== currentEpisode.id)
+          .slice(0, 5);
+        this.relatedEpisodes.set(related);
+      },
+      error: (err: any) => {
+        console.error('Failed to load latest episodes:', err);
         this.relatedEpisodes.set([]);
       }
     });
