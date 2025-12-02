@@ -59,41 +59,22 @@ export class PlaybackControls implements OnInit, AfterViewInit, OnDestroy {
             this.currentEpisodeId = episode.id;
 
             if (isNewEpisode) {
-              // Completely new episode
               this.hasReached10Percent = false;
-              console.log('🆕 New episode loaded');
+              console.log('New episode loaded:', episode.title);
             } else {
-              // Same episode loaded again - could be rewatch or reload
-              // Don't reset hasReached10Percent yet, loadSavedProgress will determine
-              console.log('🔄 Same episode reloaded');
+              console.log('Same episode reloaded:', episode.title);
             }
-            // Debug: Log the COMPLETE episode object
-            console.log('=== EPISODE SET ===');
-            console.log('Full episode object:', episode);
-            console.log('Episode details:', {
-              id: episode.id,
-              title: episode.title,
-              audioUrlPath: episode.audioUrlPath,
-              audioUrlPathType: typeof episode.audioUrlPath,
-              audioUrlPathIsEmpty: !episode.audioUrlPath || episode.audioUrlPath.trim() === '',
-              audioUrlPathLength: episode.audioUrlPath?.length,
-              allKeys: Object.keys(episode)
-            });
 
-            // ERROR: audioUrlPath is null!
+            // Validate audio URL
             if (!episode.audioUrlPath) {
-              console.error('❌ ERROR: audioUrlPath is NULL or EMPTY!');
+              console.error('ERROR: Missing audio URL for episode:', episode.id);
               alert('خطأ: لا يوجد ملف صوتي مرتبط بهذه الحلقة.\n\nالحلقة في قاعدة البيانات غير مرتبطة بملف Audio.\nيرجى التحقق من العلاقة بين Episode و Audio في قاعدة البيانات.');
             }
-            console.log('==================');
 
             this.showRatingScreen.set(false);
             this.lastSavedPosition = 0;
             this.listeningSessionStart = Date.now();
-            // Load saved progress and resume from last position
             this.loadSavedProgress(episode.id);
-          } else {
-            console.log('=== EPISODE IS NULL ===');
           }
         }
       )
@@ -132,17 +113,7 @@ export class PlaybackControls implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit(): void {
-    // Audio element is now available
-    if (this.audioPlayer?.nativeElement) {
-      const audio = this.audioPlayer.nativeElement;
-      console.log('=== AUDIO PLAYER INITIALIZED ===');
-      console.log('Audio element src:', audio.src);
-      console.log('Audio element currentSrc:', audio.currentSrc);
-      console.log('currentPodcast():', this.currentPodcast());
-      console.log('================================');
-    } else {
-      console.log('Audio player NOT initialized - element not found');
-    }
+    // Audio element is now available - initialization handled by template binding
   }
 
   ngOnDestroy(): void {
@@ -160,20 +131,9 @@ export class PlaybackControls implements OnInit, AfterViewInit, OnDestroy {
    * Sync HTML5 audio element with service state
    */
   private syncAudioPlaybackState(shouldPlay: boolean): void {
-    if (!this.audioPlayer?.nativeElement) {
-      console.warn('Cannot sync playback - audio element not available');
-      return;
-    }
+    if (!this.audioPlayer?.nativeElement) return;
 
     const audio = this.audioPlayer.nativeElement;
-
-    console.log('=== SYNC PLAYBACK STATE ===');
-    console.log('Should play:', shouldPlay);
-    console.log('Audio src:', audio.src);
-    console.log('Audio paused:', audio.paused);
-    console.log('Audio readyState:', audio.readyState);
-    console.log('Audio networkState:', audio.networkState);
-    console.log('===========================');
 
     if (shouldPlay && audio.paused) {
       // Wait for audio to be ready before playing
@@ -182,10 +142,8 @@ export class PlaybackControls implements OnInit, AfterViewInit, OnDestroy {
           console.error('Failed to play audio:', err);
           this.episodePlayerService.pause();
         });
-      } else {
-        // Audio not ready yet, will auto-play when loaded (see onAudioLoaded)
-        console.log('Audio not ready yet, waiting for loadedmetadata event');
       }
+      // If not ready, will auto-play when loaded (see onAudioLoaded)
     } else if (!shouldPlay && !audio.paused) {
       audio.pause();
     }
@@ -260,13 +218,12 @@ export class PlaybackControls implements OnInit, AfterViewInit, OnDestroy {
    * Called when audio finishes playing naturally
    */
   onAudioEnded(): void {
-    console.log('Audio playback ended naturally');
     const episode = this.currentPodcast();
 
     if (!this.audioPlayer?.nativeElement) return;
     const audio = this.audioPlayer.nativeElement;
 
-    // Reset to beginning and pause (don't stop - keep episode loaded)
+    // Reset to beginning and pause
     audio.currentTime = 0;
     this.episodePlayerService.setCurrentPosition(0);
     this.episodePlayerService.pause();
@@ -287,13 +244,9 @@ export class PlaybackControls implements OnInit, AfterViewInit, OnDestroy {
     if (!this.audioPlayer?.nativeElement) return;
 
     const audio = this.audioPlayer.nativeElement;
-    console.log('Audio loaded. Duration:', audio.duration);
-
-    // Set initial playback rate
     audio.playbackRate = 1.0;
 
     // Auto-play if the service says we should be playing
-    // This fixes the bug where UI shows playing but audio doesn't play
     if (this.isPlaying()) {
       audio.play().catch(err => {
         console.error('Auto-play failed:', err);
@@ -390,40 +343,28 @@ export class PlaybackControls implements OnInit, AfterViewInit, OnDestroy {
     this.progressService.getProgress(episodeId).subscribe({
       next: (progress) => {
         if (progress) {
-          // Episode has existing progress record
-          console.log(`Found existing progress: ${progress.completionPercentage.toFixed(1)}%, playCount: ${progress.playCount}, isCompleted: ${progress.isCompleted}`);
-
-          // If episode was completed but user is playing again, it's a rewatch
-          // Reset to beginning and allow fresh playCount increment
+          // If episode was completed, start fresh rewatch
           if (progress.isCompleted) {
-            console.log('Episode was completed - starting fresh rewatch');
+            console.log('Rewatch - starting from beginning');
             this.hasReached10Percent = false;
-            // Start from beginning for rewatch
             return;
           }
 
-          // Episode has progress but not completed - resume from last position
+          // Resume from last position
           if (progress.lastPositionSeconds > 0) {
             if (this.audioPlayer?.nativeElement) {
               this.audioPlayer.nativeElement.currentTime = progress.lastPositionSeconds;
               this.episodePlayerService.setCurrentPosition(progress.lastPositionSeconds);
             }
             console.log(`Resumed from ${progress.formattedPosition}`);
-
-            // Since progress record exists, backend already has this episode tracked
-            // Set hasReached10Percent to true so progress saves work normally
-            // (backend won't increment playCount again for same session)
             this.hasReached10Percent = true;
           } else {
-            // Progress record exists but at position 0 - could be a rewatch
-            console.log('Progress at 0 - treating as new play session');
             this.hasReached10Percent = false;
           }
         }
       },
-      error: (err) => {
-        // No saved progress found, start from beginning (first time playing)
-        console.log('No saved progress - first time playing this episode', err);
+      error: () => {
+        // No saved progress found, start from beginning
         this.hasReached10Percent = false;
       }
     });
@@ -431,8 +372,10 @@ export class PlaybackControls implements OnInit, AfterViewInit, OnDestroy {
 
   /**
    * Save current playback progress to backend
-   * IMPORTANT: Backend increments playCount when progress is first saved.
-   * We only save progress after user reaches 10% to ensure accurate playCount.
+   * Strategy:
+   * - First play (at 10% threshold): Use updateProgress() to increment playCount
+   * - Subsequent saves: Use updatePosition() for resume functionality only
+   * - Listening time: Tracked separately via trackListeningTime()
    */
   private saveCurrentProgress(): void {
     const episode = this.currentPodcast();
@@ -440,78 +383,77 @@ export class PlaybackControls implements OnInit, AfterViewInit, OnDestroy {
 
     if (!episode || position <= 0) return;
 
-    // Calculate completion percentage
     const completionPercentage = (position / episode.durationSeconds) * 100;
-
-    // CHECK 10% THRESHOLD: Only update backend after user watches 10%
-    // This ensures playCount only increments when episode is genuinely "played"
-    // Note: hasReached10Percent may already be true if resuming from saved progress
-    if (!this.hasReached10Percent) {
-      if (completionPercentage >= 10) {
-        console.log(`Reached 10% threshold (${completionPercentage.toFixed(1)}%) - counting as played`);
-        this.hasReached10Percent = true;
-        // Continue to save progress below
-      } else {
-        // User hasn't reached 10% yet, don't save to backend
-        console.log(`⏸Below 10% (${completionPercentage.toFixed(1)}%) - waiting to count as played`);
-        return;
-      }
-    }
 
     // Only save if position changed significantly (at least 5 seconds)
     if (Math.abs(position - this.lastSavedPosition) < 5) return;
 
-    const update: EpisodeProgressUpdateDto = {
-      episodeId: episode.id,
-      positionSeconds: Math.floor(position),
-      isCompleted: false
-    };
+    // CHECK 10% THRESHOLD: First play detection
+    if (!this.hasReached10Percent) {
+      if (completionPercentage >= 10) {
+        console.log(`First play at 10% threshold`);
+        this.hasReached10Percent = true;
 
-    this.progressService.updateProgress(update).subscribe({
-      next: () => {
-        this.lastSavedPosition = position;
-        console.log(`Progress saved: ${Math.floor(position)}s (${completionPercentage.toFixed(1)}%)`);
+        // FIRST PLAY: Use updateProgress() to increment playCount
+        const update: EpisodeProgressUpdateDto = {
+          episodeId: episode.id,
+          positionSeconds: Math.floor(position),
+          isCompleted: false
+        };
 
-        // Track listening time (time elapsed since session start)
-        const sessionDuration = Math.floor((Date.now() - this.listeningSessionStart) / 1000);
-        if (sessionDuration > 0) {
-          this.trackListeningSession(episode.id, sessionDuration);
-          this.listeningSessionStart = Date.now(); // Reset for next interval
-        }
-      },
-      error: (err) => {
-        console.error('Failed to save progress:', err);
+        this.progressService.updateProgress(update).subscribe({
+          next: () => {
+            this.lastSavedPosition = position;
+            console.log(`First play recorded: ${Math.floor(position)}s`);
+            this.trackListeningSession(episode.id);
+          },
+          error: (err) => console.error('Failed to save progress:', err)
+        });
+      } else {
+        console.log(`⏸Below 10% threshold - not counting as played yet`);
+        return;
       }
-    });
+    } else {
+      // SUBSEQUENT SAVES: Use updatePosition() for resume functionality
+      // This does NOT increment playCount, just updates position
+      this.progressService.updatePosition(episode.id, Math.floor(position)).subscribe({
+        next: () => {
+          this.lastSavedPosition = position;
+          console.log(`Position saved: ${Math.floor(position)}s`);
+          this.trackListeningSession(episode.id);
+        },
+        error: (err) => console.error('Failed to save position:', err)
+      });
+    }
   }
 
   /**
    * Mark episode as complete
    */
   private markEpisodeComplete(episodeId: string, duration: number): void {
-    console.log(`📋 Marking episode as complete (episodeId: ${episodeId}, duration: ${duration}s)`);
     this.progressService.markComplete(episodeId, duration).subscribe({
-      next: () => {
-        console.log('Episode successfully marked as complete in backend');
-      },
-      error: (err) => {
-        console.error('Failed to mark episode as complete:', err);
-      }
+      next: () => console.log('Episode marked as complete'),
+      error: (err) => console.error('Failed to mark episode as complete:', err)
     });
   }
 
   /**
    * Track listening time for analytics
+   * Accumulates total listening time in user profile
    */
-  private trackListeningSession(episodeId: string, secondsListened: number): void {
-    if (secondsListened <= 0) return;
+  private trackListeningSession(episodeId: string): void {
+    const sessionDuration = Math.floor((Date.now() - this.listeningSessionStart) / 1000);
 
-    this.progressService.trackListeningTime(episodeId, secondsListened).subscribe({
+    if (sessionDuration <= 0) return;
+
+    this.progressService.trackListeningTime(episodeId, sessionDuration).subscribe({
       next: () => {
-        console.log(`Tracked ${secondsListened}s of listening time`);
+        console.log(`Tracked ${sessionDuration}s listening time`);
+        this.listeningSessionStart = Date.now();
       },
       error: (err) => {
         console.error('Failed to track listening time:', err);
+        this.listeningSessionStart = Date.now(); // Reset anyway to avoid duplicate tracking
       }
     });
   }

@@ -18,6 +18,14 @@
   z-index: 1050;
 }
 
+/* repeated code lines */
+.btn-control, .btn-tool {
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 /* Backdrop Overlay */
 .backdrop {
   position: fixed;
@@ -25,7 +33,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.85);
+  background: rgba(0, 0, 0, .85);
   z-index: 1;
   animation: fadeIn 0.3s ease;
 }
@@ -47,7 +55,7 @@
    ======================================== */
 .mini-player {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, .15);
   height: 90px;
 }
 
@@ -55,9 +63,9 @@
   display: grid;
   grid-template-columns: 1fr 2fr 1fr;
   align-items: center;
-  gap: 1rem; /* Increased gap between sections */
+  gap: 1rem;
   height: 100%;
-  padding: 0 2rem; /* Increased padding for more breathing room */
+  padding: 0 2rem;
   max-width: 2200px;
   margin: 0 auto;
 }
@@ -67,7 +75,7 @@
   display: flex;
   align-items: center;
   gap: 1rem;
-  justify-content: flex-start; /* Push to far right in RTL */
+  justify-content: flex-start;
   direction: rtl;
 }
 
@@ -77,13 +85,13 @@
   border-radius: 8px;
   object-fit: cover;
   cursor: pointer;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, .3);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .player-cover:hover {
   transform: scale(1.05);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, .4);
 }
 
 .episode-details {
@@ -93,10 +101,10 @@
 }
 
 .episode-title-mini {
-  font-size: 0.95rem;
+  font-size: .95rem;
   font-weight: 600;
   color: white;
-  margin: 0 0 0.25rem 0;
+  margin: 0 0 .25rem 0;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -108,8 +116,8 @@
 }
 
 .episode-subtitle-mini {
-  font-size: 0.8rem;
-  color: rgba(255, 255, 255, 0.7);
+  font-size: .8rem;
+  color: rgba(255, 255, 255, .7);
   display: block;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -125,9 +133,9 @@
 .controls-section {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
-  justify-content: center; /* Keep centered vertically */
-  align-items: center; /* Keep centered horizontally */
+  gap: .75rem;
+  justify-content: center;
+  align-items: center;
 }
 
 .controls-buttons-row {
@@ -141,18 +149,14 @@
   border: none;
   color: white;
   cursor: pointer;
-  padding: 0.5rem;
+  padding: .5rem;
   border-radius: 50%;
-  transition: all 0.2s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   width: 40px;
   height: 40px;
 }
 
 .btn-control:hover {
-  background: rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, .15);
   transform: scale(1.05);
 }
 
@@ -174,21 +178,21 @@
 .btn-control-play:hover {
   background: white;
   transform: scale(1.08);
-  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.3);
+  box-shadow: 0 4px 12px rgba(255, 255, 255, .3);
 }
 
 /* Progress Section */
 .progress-section {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: .75rem;
   width: 100%;
   max-width: 600px;
 }
 
 .time-display {
-  font-size: 0.75rem;
-  color: rgba(255, 255, 255, 0.9);
+  font-size: .75rem;
+  color: rgba(255, 255, 255, .9);
   font-weight: 500;
   min-width: 40px;
   text-align: center;
@@ -197,12 +201,12 @@
 .progress-bar-container {
   flex: 1;
   cursor: pointer;
-  padding: 0.5rem 0;
+  padding: .5rem 0;
 }
 
 .progress-bar-bg {
   height: 4px;
-  background: rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, .3);
   border-radius: 2px;
   position: relative;
   overflow: hidden;
@@ -218,34 +222,30 @@
   background: white;
   border-radius: 2px;
   transition: width 0.1s linear;
-  box-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+  box-shadow: 0 0 8px rgba(255, 255, 255, .5);
 }
 
 /* LEFT SECTION: Helper Tools */
 .tools-section {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  justify-content: flex-end; /* Push to far left edge */
+  gap: .75rem;
+  justify-content: flex-end;
 }
 
 .btn-tool {
-  background: rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, .15);
   border: none;
   color: white;
   cursor: pointer;
-  padding: 0.5rem;
+  padding: .5rem;
   border-radius: 50%;
-  transition: all 0.2s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   width: 40px;
   height: 40px;
 }
 
 .btn-tool:hover {
-  background: rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, .25);
   transform: scale(1.05);
 }
 
@@ -260,13 +260,13 @@
 /* Responsive Design */
 @media (max-width: 992px) {
   .mini-player-content {
-    grid-template-columns: 1.2fr 1.5fr 0.8fr;
+    grid-template-columns: 1.2fr 1.5fr .8fr;
     gap: 1rem;
     padding: 0 1rem;
   }
 
   .controls-section {
-    gap: 0.5rem;
+    gap: .5rem;
   }
 
   .progress-section {
@@ -280,9 +280,9 @@
   }
 
   .mini-player-content {
-    grid-template-columns: 1fr 1.5fr 0.8fr;
-    gap: 0.75rem;
-    padding: 0 0.75rem;
+    grid-template-columns: 1fr 1.5fr .8fr;
+    gap: .75rem;
+    padding: 0 .75rem;
   }
 
   .player-cover {
@@ -295,14 +295,14 @@
   }
 
   .episode-title-mini {
-    font-size: 0.85rem;
+    font-size: .85rem;
   }
 
   .episode-subtitle-mini {
-    font-size: 0.75rem;
+    font-size: .75rem;
   }
 
-  .btn-control {
+  .btn-control, .btn-tool {
     width: 36px;
     height: 36px;
   }
@@ -321,14 +321,10 @@
   }
 
   .time-display {
-    font-size: 0.7rem;
+    font-size: .7rem;
     min-width: 35px;
   }
 
-  .btn-tool {
-    width: 36px;
-    height: 36px;
-  }
 }
 
 @media (max-width: 576px) {
@@ -337,9 +333,9 @@
   }
 
   .mini-player-content {
-    grid-template-columns: 1fr 1.2fr 0.6fr;
-    gap: 0.5rem;
-    padding: 0 0.5rem;
+    grid-template-columns: 1fr 1.2fr .6fr;
+    gap: .5rem;
+    padding: 0 .5rem;
   }
 
   .player-cover {
@@ -352,18 +348,18 @@
   }
 
   .episode-title-mini {
-    font-size: 0.8rem;
+    font-size: .8rem;
   }
 
   .episode-subtitle-mini {
-    font-size: 0.7rem;
+    font-size: .7rem;
   }
 
   .controls-buttons-row {
-    gap: 0.5rem;
+    gap: .5rem;
   }
 
-  .btn-control {
+  .btn-control, .btn-tool {
     width: 32px;
     height: 32px;
   }
@@ -382,22 +378,17 @@
   }
 
   .progress-section {
-    gap: 0.5rem;
+    gap: .5rem;
     max-width: 200px;
   }
 
   .time-display {
-    font-size: 0.65rem;
+    font-size: .65rem;
     min-width: 30px;
   }
 
   .progress-bar-bg {
     height: 3px;
-  }
-
-  .btn-tool {
-    width: 32px;
-    height: 32px;
   }
 
   .btn-tool i {
