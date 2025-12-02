@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { PlaybackControls } from './playback-controls';
+import {provideHttpClient} from '@angular/common/http';
+import {provideHttpClientTesting} from '@angular/common/http/testing';
 
 describe('PlaybackControls', () => {
   let component: PlaybackControls;
@@ -8,7 +9,11 @@ describe('PlaybackControls', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [PlaybackControls]
+      imports: [PlaybackControls],
+      providers: [
+        provideHttpClient(),
+        provideHttpClientTesting()
+      ]
     })
     .compileComponents();
 

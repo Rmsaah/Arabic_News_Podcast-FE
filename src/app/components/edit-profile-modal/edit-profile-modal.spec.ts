@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { EditProfileModal } from './edit-profile-modal';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 
 describe('EditProfileModal', () => {
   let component: EditProfileModal;
@@ -8,9 +9,13 @@ describe('EditProfileModal', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [EditProfileModal]
+      imports: [EditProfileModal],
+      providers: [
+        provideHttpClient(),
+        provideHttpClientTesting()
+      ]
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(EditProfileModal);
     component = fixture.componentInstance;

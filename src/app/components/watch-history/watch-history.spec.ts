@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { WatchHistory } from './watch-history';
+import {provideHttpClient} from '@angular/common/http';
+import {provideHttpClientTesting} from '@angular/common/http/testing';
 
 describe('WatchHistory', () => {
   let component: WatchHistory;
@@ -8,7 +9,11 @@ describe('WatchHistory', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [WatchHistory]
+      imports: [WatchHistory],
+      providers: [
+        provideHttpClient(),
+        provideHttpClientTesting()
+      ]
     })
     .compileComponents();
 
