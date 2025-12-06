@@ -11,6 +11,10 @@
   color: #004a63;
 }
 
+.search-result {
+  direction: rtl;
+}
+
 .pagination .page-link {
   color: #047196; /* Example: A medium blue text color */
 }

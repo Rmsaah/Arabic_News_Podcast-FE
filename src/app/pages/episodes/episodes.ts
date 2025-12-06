@@ -1,6 +1,6 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Search } from '../../components/search/search';
 import { EpisodeList } from '../../components/episode-list/episode-list';
 import { EpisodeApiService } from '../../services/episode-api.service';
@@ -24,6 +24,7 @@ export class Episodes implements OnInit {
 
   constructor(
     private episodeApiService: EpisodeApiService,
+    private router: Router,
     private route: ActivatedRoute
   ) {}
 
@@ -65,9 +66,21 @@ export class Episodes implements OnInit {
     this.searchQuery.set(query);
 
     if (!query || query.trim() === '') {
+      // Remove search query from URL when clearing search
+      this.router.navigate([], {
+        relativeTo: this.route,
+        queryParams: {search: null},
+        queryParamsHandling: 'merge'
+      });
       this.loadEpisodes();
       return;
     }
+
+    // Update URL with search query
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: { search: query }
+    });
 
     this.loading.set(true);
     this.error.set('');
