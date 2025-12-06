@@ -1,5 +1,5 @@
 .home-container {
-  padding-bottom: 50px;
+  padding-bottom: 20px;
 }
 
 .search-section {
@@ -15,4 +15,9 @@
 
 .features-section {
   border-radius: 10px;
+  padding-top: 10px;
+}
+
+.features-section i {
+  color: #d5003c !important; /* A light teal color */
 }

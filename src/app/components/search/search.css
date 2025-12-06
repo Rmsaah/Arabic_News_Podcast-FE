@@ -10,6 +10,12 @@
 
 .btn {
   border-radius: 0 25px 25px 0 !important;
+  background-color: #047196;
+  border-color: #047196;
+}
+
+.btn:hover {
+  opacity: 0.8;
 }
 
 .btn-outline-secondary {

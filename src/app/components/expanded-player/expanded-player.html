@@ -17,7 +17,7 @@
     <!-- Episode Cover Image -->
     <div class="cover-wrapper">
       <img
-        [src]="episode.imageUrl || 'https://via.placeholder.com/400?text=No+Image'"
+        [src]="episode.imageUrl || getImageUrl(null)"
         [alt]="episode.title"
         class="cover-large">
     </div>
@@ -47,7 +47,7 @@
         </div>
       }
 
-      <!-- Transcript Link -->
+      <!-- TODO: add transcript
       @if (episode.scriptUrlPath) {
         <a [href]="episode.scriptUrlPath"
            target="_blank"
@@ -56,6 +56,7 @@
           عرض النص الكامل
         </a>
       }
+      -->
     </div>
 
   </div>
