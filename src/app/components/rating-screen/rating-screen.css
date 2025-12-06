@@ -1,4 +1,4 @@
-/* ==================== RATING SCREEN (PLEX STYLE) ==================== */
+/* RATING SCREEN (PLEX STYLE) */
 .rating-screen-wrapper {
   position: fixed;
   top: 0;
@@ -30,7 +30,7 @@
   height: 100vh;
   display: flex;
   flex-direction: column;
-  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+  background: linear-gradient(135deg, #055d7a 0%, #004a63 50%, #3f3f3f 100%);
   animation: slideInUp 0.4s ease;
 }
 
