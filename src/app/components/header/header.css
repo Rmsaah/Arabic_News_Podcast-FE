@@ -9,6 +9,12 @@
   margin-left: 2.2rem;
 }
 
+.logo {
+  max-width: 35px;
+  max-height: 75px;
+  margin: 0 5px 0 5px;
+}
+
 .nav-link {
   transition: opacity 0.2s;
   font-size: 1.2rem;
