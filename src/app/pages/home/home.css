@@ -1,5 +1,5 @@
 .home-container {
-  padding-bottom: 50px;
+  background: linear-gradient(to bottom, #f8f9fa 0%, #ffffff 100%);
 }
 
 .search-section {
@@ -15,4 +15,9 @@
 
 .features-section {
   border-radius: 10px;
+  background: linear-gradient(to bottom, #f8f9fa 0%, #ffffff 100%);
+}
+
+.features-section i {
+  color: #004a63 !important; /* A light teal color */
 }

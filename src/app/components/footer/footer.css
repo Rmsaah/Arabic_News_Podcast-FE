@@ -1,6 +1,13 @@
 .footer {
-  margin-top: auto;
-  border-top: 1px solid #dee2e6;
+  margin-top: auto !important;
+  border-top: 1px solid #373737;
+  background-color: #3f3f3f;
+}
+
+.logo {
+  max-height: 30px; /* Reduce from 50px to fit better */
+  width: auto; /* Maintain aspect ratio */
+  margin: 0 5px;
 }
 
 /* Consistent section spacing */
@@ -22,6 +29,9 @@
   margin-bottom: 1.5rem;
   padding-bottom: 0.5rem;
   border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  min-height: 50px;
 }
 
 /* Paragraph spacing */

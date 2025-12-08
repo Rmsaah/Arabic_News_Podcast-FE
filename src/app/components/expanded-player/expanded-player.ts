@@ -1,5 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { PlaceholderService} from '../../services/placeholder.service';
 import { EpisodeDto } from '../../models/episode.model';
 
 @Component({
@@ -22,4 +23,26 @@ export class ExpandedPlayer {
   @Output() seek = new EventEmitter<number>();
   @Output() seekToPosition = new EventEmitter<MouseEvent>();
   @Output() setPlaybackRate = new EventEmitter<number>();
+
+  constructor(
+    private placeholderService: PlaceholderService
+  ) {}
+
+  /**
+   * Get image URL with fallback to placeholder
+   */
+  getImageUrl(episode: EpisodeDto | null): string {
+    if (episode?.imageUrl && episode.imageUrl.trim() !== '') {
+      return episode.imageUrl;
+    }
+    return this.placeholderService.generatePlaceholder();
+  }
+
+  /**
+   * Handle image loading errors by setting fallback
+   */
+  onImageError(event: Event): void {
+    const img = event.target as HTMLImageElement;
+    img.src = this.placeholderService.generatePlaceholder();
+  }
 }

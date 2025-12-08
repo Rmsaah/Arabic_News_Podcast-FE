@@ -15,7 +15,7 @@
 }
 
 .history-title i {
-  color: #667eea;
+  color: #004a63;
   font-size: 2rem;
   margin: 0 0 0 0.5rem;
 }
@@ -167,7 +167,7 @@
 
 .progress-bar {
   height: 100%;
-  background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(90deg, #047196 0%, #055d7a 100%);
   border-radius: 3px;
   transition: width 0.3s ease;
 }

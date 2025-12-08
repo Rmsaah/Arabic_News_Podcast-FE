@@ -114,10 +114,10 @@
                     <div class="related-episode-card" (click)="playRelatedEpisode(ep)">
                       <div class="related-episode-image-wrapper">
                         <img
-                          [src]="ep.imageUrl || 'assets/placeholder.jpg'"
+                          [src]="ep.imageUrl || getImageUrl(null)"
                           [alt]="ep.title"
                           class="related-episode-image"
-                          onerror="this.src='assets/placeholder.jpg'">
+                          onerror="this.src=onImageError(null)">
                         <div class="related-play-overlay">
                           <i class="bi bi-play-circle-fill"></i>
                         </div>

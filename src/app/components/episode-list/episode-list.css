@@ -143,6 +143,8 @@
   font-weight: 500;
   padding: 0.5rem 1rem;
   transition: all 0.3s ease;
+  background-color: #047196;
+  border-color: #047196;
 }
 
 .btn-primary:hover {
@@ -153,7 +155,7 @@
 /* Responsive Design */
 @media (max-width: 767px) {
   .card-title {
-    font-size: 1rem;
+    font-size: 1.5rem;
     max-width: 65%;
   }
 
@@ -162,8 +164,8 @@
   }
 
   .card-text {
-    font-size: 0.85rem;
-    -webkit-line-clamp: 2;
+    font-size: 1rem;
+    -webkit-line-clamp: 3;
     line-clamp: 2;
   }
 

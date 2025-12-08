@@ -6,3 +6,27 @@
 .page-header {
   margin-bottom: 30px;
 }
+
+.page-header i {
+  color: #004a63;
+}
+
+.search-result {
+  direction: rtl;
+}
+
+.pagination .page-link {
+  color: #047196; /* Example: A medium blue text color */
+}
+
+.pagination .page-link:hover {
+  background-color: #e0e7ff;
+  border-color: #c5cae9;
+  color: #3f51b5;
+}
+
+.pagination .page-item.active .page-link {
+  background-color: #004a63;
+  border-color: #004a63;
+  color: #fff;
+}

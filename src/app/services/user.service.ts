@@ -5,8 +5,6 @@ import { environment } from '../../environments/environment';
 import {
   UserDto,
   UserProfileDto,
-  UserListeningStatsDto,
-  EpisodeHistoryDto
 } from '../models/episode.model';
 
 @Injectable({
@@ -19,6 +17,8 @@ export class UserService {
 
   /**
    * Get user by ID
+   * Backend: GET /api/users/{id}
+   * Note: Users can view their own profile or others (depending on backend permissions)
    * @param userId User UUID
    */
   getUserById(userId: string): Observable<UserDto> {

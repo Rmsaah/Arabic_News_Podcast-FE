@@ -8,8 +8,25 @@
   padding: 12px 20px;
 }
 
+.clear-search {
+  background-color: #f8f9fa !important;
+  color: #d5003c !important;
+  border-color: #f8f9fa !important;
+}
+
+.clear-search:hover {
+  background-color: #e2e6ea !important;
+  border-color: #e2e6ea !important;
+}
+
 .btn {
   border-radius: 0 25px 25px 0 !important;
+  background-color: #047196;
+  border-color: #047196;
+}
+
+.btn:hover {
+  opacity: 0.8;
 }
 
 .btn-outline-secondary {

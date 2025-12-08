@@ -3,7 +3,7 @@
 @import 'bootstrap-icons/font/bootstrap-icons.css';
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-family: 'F37 Wicklow', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   text-align: right;
-  background-color: #f5f7fa; /* Light neutral background that works with most pages */;
+  background: linear-gradient(to bottom, #f8f9fa 0%, #ffffff 100%);
 }
