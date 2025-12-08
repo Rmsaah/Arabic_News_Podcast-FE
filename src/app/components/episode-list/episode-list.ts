@@ -29,8 +29,8 @@ export class EpisodeList {
   /**
    * Get image URL with fallback to placeholder
    */
-  getImageUrl(episode: EpisodeDto): string {
-    if (episode.imageUrl && episode.imageUrl.trim() !== '') {
+  getImageUrl(episode: EpisodeDto | null): string {
+    if (episode?.imageUrl && episode.imageUrl.trim() !== '') {
       return episode.imageUrl;
     }
     return this.placeholderService.generatePlaceholder();

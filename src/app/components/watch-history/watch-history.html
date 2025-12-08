@@ -87,10 +87,10 @@
           <!-- Episode Cover Image -->
           <div class="episode-cover-wrapper">
             <img
-              [src]="episode.episodeImageUrl || 'assets/placeholder.jpg'"
+              [src]="episode.episodeImageUrl || getImageUrl(null)"
               [alt]="episode.episodeTitle"
               class="episode-cover"
-              onerror="this.src='assets/placeholder.jpg'">
+              onerror="this.src=onImageError()">
             <button class="play-button" (click)="onPlayClick(episode.episodeId)">
               <i class="bi bi-play-fill"></i>
             </button>

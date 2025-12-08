@@ -1,8 +1,3 @@
-/* ========================================
-   PLAYBACK CONTROLS - Spotify-style RTL Layout
-   Fixed to viewport bottom (not page bottom)
-   ======================================== */
-
 /* Wrapper - Fixed to viewport */
 .playback-controls-wrapper {
   position: fixed;
@@ -50,11 +45,9 @@
   background: white;
 }
 
-/* ========================================
-   MINI PLAYER - Spotify-style RTL
-   ======================================== */
+/* MINI PLAYER - Spotify-style RTL */
 .mini-player {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(90deg, #047196 0%, #055d7a 100%);
   box-shadow: 0 -4px 20px rgba(0, 0, 0, .15);
   height: 90px;
 }

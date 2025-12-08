@@ -15,7 +15,7 @@ import { EpisodeDto } from '../../models/episode.model';
 })
 export class LatestEpisodes implements OnInit {
   @Input() limit: number = 5; // Default to 5, can be configured to 3-5
-  @Input() title: string = 'حلقات اليوم'; // "Today's Episodes"
+  @Input() title: string = 'احدث الحلقات'; // "Today's Episodes"
 
   episodes: EpisodeDto[] = [];
   loading = true;

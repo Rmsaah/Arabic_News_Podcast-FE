@@ -1,16 +1,24 @@
 .navbar {
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); /* Gradient example */
+  background: linear-gradient(135deg, #055d7a 0%, #004a63 100%);
 }
 
 .navbar-brand {
   font-weight: bold;
-  font-size: 1.3rem;
-  margin-left: 2rem; /* Add space to the left of the logo */
+  font-size: 1.6rem;
+  margin-left: 2.2rem;
+}
+
+.logo {
+  max-width: 35px;
+  max-height: 75px;
+  margin: 0 5px 0 5px;
 }
 
 .nav-link {
   transition: opacity 0.2s;
+  font-size: 1.2rem;
+  margin-left: .8rem;
 }
 
 .nav-link:hover {
@@ -25,7 +33,7 @@
 .header-search-wrapper {
   display: flex;
   align-items: center;
-  flex-direction: row-reverse; /* Reverses the order so input appears before button */
+  flex-direction: row-reverse;
   margin-left: 10px;
   overflow: visible;
 }
@@ -63,7 +71,7 @@
 .header-search-input.open {
   max-width: 300px;
   opacity: 1;
-  margin-right: 8px; /* Changed from margin-left to margin-right */
+  margin-right: 8px;
   padding: 4px 12px;
 }
 
@@ -99,6 +107,7 @@
   border: 1px solid rgba(0, 0, 0, 0.15);
   border-radius: 0.375rem;
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+  font-size: 1.1rem;
 }
 
 .dropdown-menu.show {
@@ -128,20 +137,29 @@
 
 /* Mobile adjustments */
 @media (max-width: 991px) {
-  .header-search-wrapper {
-    width: 100%;
-    margin: 10px 0;
+  .header-search-wrapper, .search-toggle {
+    display: none;
   }
 
-  .header-search-input {
-    position: static;
-    width: 100%;
-    margin-top: 5px;
+  .container-fluid {
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
   }
 
-  .search-toggle {
-    width: 100%;
-    text-align: left;
+  .navbar-brand {
+    margin-right: 0;
+    margin-left: auto;
+  }
+
+  .navbar-nav.me-auto {
+    display: flex;
+    flex-direction: row-reverse;
+  }
+
+  .navbar-nav.ms-auto {
+    flex-direction: column-reverse;
+    gap: 5px;
   }
 
   .dropdown-menu {

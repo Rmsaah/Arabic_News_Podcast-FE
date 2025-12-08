@@ -1,8 +1,9 @@
 import { Component, Input, Output, EventEmitter, OnChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { EpisodeHistoryDto } from '../../models/episode.model';
+import {EpisodeDto, EpisodeHistoryDto} from '../../models/episode.model';
 import { EpisodePlayerService } from '../../services/episode-player.service';
 import { EpisodeApiService } from '../../services/episode-api.service';
+import {PlaceholderService} from '../../services/placeholder.service';
 
 @Component({
   selector: 'app-watch-history',
@@ -20,7 +21,8 @@ export class WatchHistory implements OnChanges {
 
   constructor(
     public episodePlayerService: EpisodePlayerService,
-    private episodeApiService: EpisodeApiService
+    private episodeApiService: EpisodeApiService,
+    private placeholderService: PlaceholderService
   ) {}
 
   ngOnChanges(): void {
@@ -61,5 +63,23 @@ export class WatchHistory implements OnChanges {
 
   onPlayClick(episodeId: string): void {
     this.playEpisode.emit(episodeId);
+  }
+
+  /**
+   * Get image URL with fallback to placeholder
+   */
+  getImageUrl(episode: EpisodeDto | null): string {
+    if (episode?.imageUrl && episode.imageUrl.trim() !== '') {
+      return episode.imageUrl;
+    }
+    return this.placeholderService.generatePlaceholder();
+  }
+
+  /**
+   * Handle image loading errors by setting fallback
+   */
+  onImageError(event: Event): void {
+    const img = event.target as HTMLImageElement;
+    img.src = this.placeholderService.generatePlaceholder();
   }
 }
