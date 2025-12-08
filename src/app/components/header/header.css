@@ -5,13 +5,13 @@
 
 .navbar-brand {
   font-weight: bold;
-  font-size: 1.7rem;
+  font-size: 1.6rem;
   margin-left: 2.2rem;
 }
 
 .nav-link {
   transition: opacity 0.2s;
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   margin-left: .8rem;
 }
 
