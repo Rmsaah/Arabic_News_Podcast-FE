@@ -22,4 +22,4 @@ COPY ./nginx2.conf /etc/nginx/nginx.conf
 # add built project to nginx to be served
 COPY --from=build /app/dist/ArabicNewsPodcast-FE/browser /usr/share/nginx/html
 
-EXPOSE 80
+EXPOSE 4354
