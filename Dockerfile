@@ -16,6 +16,7 @@ RUN npm run build
 
 RUN pwd
 RUN ls /app/dist/ArabicNewsPodcast-FE
+RUN ls /app/dist/ArabicNewsPodcast-FE/browser
 
 # STAGE 2: production
 FROM nginx:1.28-alpine
