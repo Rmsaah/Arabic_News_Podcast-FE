@@ -20,6 +20,6 @@ FROM nginx:1.28-alpine
 COPY ./nginx.conf /etc/nginx/nginx.conf
 
 # add built project to nginx to be served
-COPY --from=build /app/dist/ArabicNewsPodcast-FE/ /usr/share/nginx/html
+COPY --from=build /app/dist/ArabicNewsPodcast-FE/browser /usr/share/nginx/html
 
 EXPOSE 80
