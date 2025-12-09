@@ -14,14 +14,12 @@ COPY src ./src
 COPY public ./public
 RUN npm run build
 
-RUN pwd
-RUN ls /app/dist/ArabicNewsPodcast-FE
-RUN ls /app/dist/ArabicNewsPodcast-FE/browser
-
 # STAGE 2: production
 FROM nginx:1.28-alpine
+# add the custom NGINX configuration file
+COPY ./nginx2.conf /etc/nginx/nginx.conf
 
 # add built project to nginx to be served
-COPY --from=build /app/dist/ArabicNewsPodcast-FE/browser /etc/nginx/html/
+COPY --from=build /app/dist/ArabicNewsPodcast-FE/browser /usr/share/nginx/html
 
 EXPOSE 80
