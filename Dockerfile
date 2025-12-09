@@ -19,6 +19,13 @@ FROM nginx:1.28-alpine
 # add the custom NGINX configuration file
 COPY ./nginx2.conf /etc/nginx/nginx.conf
 
+# install envsubst for runtime env injection
+RUN apk add --no-cache gettext
+
+# copy entrypoint script to generate env.js from env.template.js at container start
+COPY docker-entrypoint.d /docker-entrypoint.d
+RUN chmod +x /docker-entrypoint.d/*.sh
+
 # add built project to nginx to be served
 COPY --from=build /app/dist/ArabicNewsPodcast-FE/browser /usr/share/nginx/html
 
