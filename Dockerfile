@@ -16,10 +16,8 @@ RUN npm run build
 
 # STAGE 2: production
 FROM nginx:1.28-alpine
-# add the custom NGINX configuration file
-COPY ./nginx.conf /etc/nginx/nginx.conf
 
 # add built project to nginx to be served
-COPY --from=build /app/dist/ArabicNewsPodcast-FE/browser /usr/share/nginx/html
+COPY --from=build /app/dist/ArabicNewsPodcast-FE/browser /etc/nginx/html/
 
 EXPOSE 80
