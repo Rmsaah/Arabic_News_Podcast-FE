@@ -14,6 +14,9 @@ COPY src ./src
 COPY public ./public
 RUN npm run build
 
+RUN pwd
+RUN ls /app/dist/ArabicNewsPodcast-FE
+
 # STAGE 2: production
 FROM nginx:1.28-alpine
 
