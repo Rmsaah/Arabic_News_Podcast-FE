@@ -1,59 +1,96 @@
-# ArabicNewsPodcastFE
+# 3ulum Al-Yawm — Frontend
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.6.
+Angular web application for **3ulum Al-Yawm**, an Arabic news podcast platform that presents AI-generated news episodes in the Najdi dialect.
 
-## Development server
+## Project suite
 
-To start a local development server, run:
+- **Frontend (this repository):** browsing, playback, authentication, and user profiles
+- [Backend](https://github.com/Rmsaah/Arabic_News_Podcast-BE): Spring Boot REST API and persistence
+- [AI and TTS agent](https://github.com/madaweehath/tts-agent-project): news processing and audio generation
 
-```bash
-ng serve
-```
+## Features
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+- Responsive Arabic podcast experience
+- Daily and paginated episode listings
+- Episode search by title and category
+- Audio player with expanded playback controls
+- Registration and login
+- Protected user profile
+- Listening progress, history, and statistics
+- Episode ratings
 
-## Code scaffolding
+## Technology
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+- Angular 20
+- TypeScript 5.9
+- Bootstrap 5 and Bootstrap Icons
+- RxJS
+- Karma and Jasmine
+- Nginx for the production container
 
-```bash
-ng generate component component-name
-```
+## Getting started
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+### Prerequisites
 
-```bash
-ng generate --help
-```
+- Node.js 22 LTS
+- npm
+- The [backend API](https://github.com/Rmsaah/Arabic_News_Podcast-BE), running by default at `http://localhost:8283`
 
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+### 1. Clone and install
 
 ```bash
-ng test
+git clone https://github.com/Rmsaah/Arabic_News_Podcast-FE.git
+cd Arabic_News_Podcast-FE
+npm install
 ```
 
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
+### 2. Run locally
 
 ```bash
-ng e2e
+npm start
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+Open `http://localhost:4200`. The development configuration uses `http://localhost:8283/api` as the default API URL.
 
-## Additional Resources
+## Available scripts
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+```bash
+npm start        # Start the development server
+npm run build    # Create a production build
+npm run watch    # Rebuild when source files change
+npm test         # Run the Karma/Jasmine test suite
+```
+
+Production output is written under `dist/ArabicNewsPodcast-FE/browser`.
+
+## API configuration
+
+The application reads the backend base URL from `window.__env.API_URL`. If the URL has no path, `/api` is appended automatically.
+
+For local development, change the fallback in:
+
+- `src/environments/environment.ts`
+- `src/environments/environment.prod.ts`
+
+The Docker image generates `env.js` at startup, so a deployed image can be configured without rebuilding it.
+
+## Docker
+
+```bash
+docker build -t 3ulum-alyawm-frontend .
+docker run --rm -p 4354:4354 \
+  -e API_URL=http://localhost:8283/api \
+  3ulum-alyawm-frontend
+```
+
+Open `http://localhost:4354`.
+
+> When the browser, frontend container, and backend run on different hosts, set `API_URL` to an address reachable by the browser and add the frontend origin to the backend's `ALLOWED_ORIGINS`.
+
+## Application routes
+
+- `/` — home and daily episodes
+- `/episodes` — episode browser and search
+- `/profile` — authenticated user profile
+
+Unknown routes redirect to the home page.
